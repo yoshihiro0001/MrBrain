@@ -1,0 +1,47 @@
+.DS_Store
+.trash/
+
+# Obsidian local state
+.obsidian/
+!.obsidian/.gitkeep
+
+# Temporary files
+*.tmp
+*.log
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Original documents / evidence files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.heic
+*.webp
+*.mov
+*.mp4
+*.m4v
+*.mp3
+*.wav
+*.pdf
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.docx
+*.doc
+*.pptx
+*.ppt
+*.zip
+*.7z
+*.rar
+
+# Build outputs
+node_modules/
+dist/
