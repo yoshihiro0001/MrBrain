@@ -26,16 +26,16 @@ MrBrain v0.5
 - 次は、Priority 1のFlowを現実データで進める段階
 
 ## Flow Decision Dashboard
-| Priority | Project | Flow | Current Position | Next Bottleneck | Expected Return | Confidence | Next Best Action | Snapshot | Git Tag | Last Updated |
-|---:|---|---|---|---|---|---|---|---|---|---|
-| 1 | JOY ホテルOS | Signal → Event → Pricing → Sales → Accounting → Tax | Signal取得Blueprintはあるが、現場信号の実データがまだない | Signal | ★★★★★ | 80%<br>理由: Goalは明確。信号取得方式は未確認 | 202号室を代表点にして、操作前後のPC画面、入力機器、料金表示を撮る | 未設定 | 未設定 | 2026-06-29 |
-| 2 | 会社運営OS / 経理 | Input → Approval → Monthly Closing → Tax Export → Filing | DB正本 + 人間承認の方向は決定。1か月テスト範囲が未確定 | Input正本 | ★★★★★ | 75%<br>理由: 方向性は明確だが、最初のDB項目が未確定 | DB正本 + 人間承認の1か月テスト範囲を確定する | 未設定 | 未設定 | 2026-06-29 |
-| 3 | MrBrain Core | 起動 → Routing → Layer確認 → Git保存 → Snapshot復元 | GitHub保存、Snapshot復元、AGENTS導線は接続済み。実運用テストが未完了 | Snapshot運用の実使用 | ★★★★☆ | 90%<br>理由: 仕組みは完成。実使用だけ未検証 | 次の大きな編集で、編集前後commitとsnapshotを1回実際に使う | `snapshot-20260629-mrbrain-github-initial-sync` | `snapshot-20260629-mrbrain-github-initial-sync` | 2026-06-29 |
-| 4 | スプレッドシート整理 | Source → Index → Master → AI Handoff → DB移行 | 5シート索引はある。会社マスターの正本候補がまだ未検証 | Master正本 | ★★★★☆ | 80%<br>理由: 既存資料は揃っているが、正本確定には再確認が必要 | 5スプレッドシートの会社マスター正本候補を再検証する | 未設定 | 未設定 | 2026-06-29 |
-| 5 | Human Communication OS | Principle → Template → Real Reply → Feedback → Skill化 | 原則とテンプレートはある。実際の返信でまだ検証していない | Real Reply | ★★★☆☆ | 85%<br>理由: 原則は明確。実例投入で進む | 実際の問い合わせ文を1つテンプレートに当てはめる | 未設定 | 未設定 | 2026-06-29 |
-| 6 | NotebookLM / AI学習 | Source → Compression → Connection → Learning → Automation | NotebookLMの役割は整理済み。MrBrainへ戻す運用が未定着 | Learning | ★★★☆☆ | 80%<br>理由: 使い分けは明確だが、運用回数が少ない | NotebookLMで得た重要メモをMrBrainへ1回保存する | 未設定 | 未設定 | 2026-06-29 |
-| 7 | Approval Inbox / Command Center | Intake → Classification → Proposal → Approval → Execution → Learning | 汎用コンポーネントは整理済み。最初の適用例が未決定 | Intake | ★★★★☆ | 60%<br>理由: 価値は高いが、入口Projectが未確定 | 最初の適用例をBooking.com / メール / 経理確認のどれにするか1つ決める | 未設定 | 未設定 | 2026-06-29 |
-| 8 | 投資家OS | Root Structure → Value → Network → Prediction → Execution | 思想と会社カード構想はある。Networkと予測の実装は未着手 | Network | ★★★★☆ | 65%<br>理由: 価値は高いが、現在の最優先Goalからは離れる | 会社カードMVPを今進めるか保留するか判断する | 未設定 | 未設定 | 2026-06-29 |
+| Priority | Project | Flow | Current Position | Next Bottleneck | Expected Return | Confidence | Evidence | Next Best Action | Snapshot | Git Tag | Last Updated |
+|---:|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | JOY ホテルOS | Signal → Event → Pricing → Sales → Accounting → Tax | Signal取得Blueprintはあるが、現場信号の実データがまだない | Signal | ★★★★★ | 80% | 売上源流がSignalにあるため。信号取得方式が未確認なのでConfidenceは80%。 | 202号室を代表点にして、操作前後のPC画面、入力機器、料金表示を撮る | 未設定 | 未設定 | 2026-06-29 |
+| 2 | 会社運営OS / 経理 | Input → Approval → Monthly Closing → Tax Export → Filing | DB正本 + 人間承認の方向は決定。1か月テスト範囲が未確定 | Input正本 | ★★★★★ | 75% | DB正本ができると月次・税務へ接続できるため。最小DB項目が未確定なのでConfidenceは75%。 | DB正本 + 人間承認の1か月テスト範囲を確定する | 未設定 | 未設定 | 2026-06-29 |
+| 3 | MrBrain Core | 起動 → Routing → Layer確認 → Git保存 → Snapshot復元 | GitHub保存、Snapshot復元、AGENTS導線は接続済み。実運用テストが未完了 | Snapshot運用の実使用 | ★★★★☆ | 90% | GitHub保存と復元ルールは実装済み。実際の大きな編集で未使用なのでConfidenceは90%。 | 次の大きな編集で、編集前後commitとsnapshotを1回実際に使う | `snapshot-20260629-mrbrain-github-initial-sync` | `snapshot-20260629-mrbrain-github-initial-sync` | 2026-06-29 |
+| 4 | スプレッドシート整理 | Source → Index → Master → AI Handoff → DB移行 | 5シート索引はある。会社マスターの正本候補がまだ未検証 | Master正本 | ★★★★☆ | 80% | 会社マスターが決まると経理・税務・AI引き継ぎが安定するため。正本候補の再確認が未完了。 | 5スプレッドシートの会社マスター正本候補を再検証する | 未設定 | 未設定 | 2026-06-29 |
+| 5 | Human Communication OS | Principle → Template → Real Reply → Feedback → Skill化 | 原則とテンプレートはある。実際の返信でまだ検証していない | Real Reply | ★★★☆☆ | 85% | 原則とテンプレートは揃っているため。実際の返信で未検証なのでConfidenceは85%。 | 実際の問い合わせ文を1つテンプレートに当てはめる | 未設定 | 未設定 | 2026-06-29 |
+| 6 | NotebookLM / AI学習 | Source → Compression → Connection → Learning → Automation | NotebookLMの役割は整理済み。MrBrainへ戻す運用が未定着 | Learning | ★★★☆☆ | 80% | 使い分けは整理済み。重要メモをMrBrainへ戻す実運用回数が不足している。 | NotebookLMで得た重要メモをMrBrainへ1回保存する | 未設定 | 未設定 | 2026-06-29 |
+| 7 | Approval Inbox / Command Center | Intake → Classification → Proposal → Approval → Execution → Learning | 汎用コンポーネントは整理済み。最初の適用例が未決定 | Intake | ★★★★☆ | 60% | 承認画面化の波及は大きい。最初の入口Projectが未確定なのでConfidenceは60%。 | 最初の適用例をBooking.com / メール / 経理確認のどれにするか1つ決める | 未設定 | 未設定 | 2026-06-29 |
+| 8 | 投資家OS | Root Structure → Value → Network → Prediction → Execution | 思想と会社カード構想はある。Networkと予測の実装は未着手 | Network | ★★★★☆ | 65% | Network完成は予測精度へ効く。現在GoalがJOY・経理優先なのでConfidenceは65%。 | 会社カードMVPを今進めるか保留するか判断する | 未設定 | 未設定 | 2026-06-29 |
 
 ## 評価基準
 ### Expected Return
