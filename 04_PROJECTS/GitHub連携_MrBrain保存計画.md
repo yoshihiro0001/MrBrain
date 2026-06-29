@@ -7,10 +7,13 @@ MrBrainをGitHubにも保存し、Obsidian・Codex・Cursor・開発プロジェ
 
 ## 現状
 - MrBrainはObsidian Vaultとしてローカルに存在する。
-- 現在のMrBrainフォルダは、まだGitリポジトリではない。
+- 現在のMrBrainフォルダは、Gitリポジトリとして初期化済み。
 - `gh` CLIは `yoshihiro0001` でログイン済み。
-- GitHubへ保存することは技術的に可能。
-- 2026-06-29時点の確認では、`git rev-parse --is-inside-work-tree` は失敗しており、MrBrainはまだGit管理されていない。
+- GitHub remote:
+  - `origin https://github.com/yoshihiro0001/MrBrain.git`
+- 2026-06-29に初回commitを作成し、`main` をGitHubへpush済み。
+- 初回commit:
+  - `b7c38dd Initial MrBrain vault backup`
 
 ## 基本方針
 GitHubに保存する場合は、原則として非公開リポジトリにする。
@@ -131,22 +134,10 @@ Obsidianの作業状態、不要な一時ファイル、秘密情報を除外す
 *.docx
 ```
 
-## 保存・復元・拡張ルール設計案
+## 保存・復元・拡張ルール
 
-### 1. まずやること
-いきなりGit初期化やpushをしない。
-
-最初にやるのは、Git管理状態の監査である。
-
-確認すること:
-- MrBrainがGit管理されているか
-- `.gitignore` が必要か
-- Gitに入れるべきMarkdownと、入れてはいけない原本が混ざっていないか
-- 写真、動画、契約書、証憑、スクショ、Excel、PDFがVault内にないか
-- private GitHubへ保存する範囲はどこまでか
-
-### 2. Git管理前の安全確認
-Git管理する前に、次を確認する。
+### 1. Git管理の境界
+Gitに入れるものと入れないものを分ける。
 
 ```md
 Gitに入れる:
@@ -165,7 +156,7 @@ Gitに入れない:
 - 認証情報
 ```
 
-### 3. AI編集前後の運用
+### 2. AI編集前後の運用
 AIがMrBrainを編集する前後は、次の順番にする。
 
 ```md
@@ -181,7 +172,7 @@ AIがMrBrainを編集する前後は、次の順番にする。
 4. 問題なければcommitする
 ```
 
-### 4. 失敗した時の戻し方
+### 3. 失敗した時の戻し方
 Git管理後は、次の戻し方を基本にする。
 
 ```md
@@ -199,7 +190,7 @@ Git管理後は、次の戻し方を基本にする。
 AIは勝手に破壊的な戻し方をしない。
 `git reset --hard` や一括削除は、ユーザー確認後だけ行う。
 
-### 5. 拡張時のルール
+### 4. 拡張時のルール
 MrBrainを拡張する時は、次を守る。
 
 - 新規ファイルは、既存ファイルへ統合できないか先に確認する
@@ -209,26 +200,25 @@ MrBrainを拡張する時は、次を守る。
 - 大きな構造変更後もcommitする
 - Layer Integrity Checkで置き場所を確認する
 
-## Git導入ロードマップ
-1. Git管理状態を監査する。
-2. `.gitignore` を作る前に、除外対象を確定する。
-3. Vault内に原本ファイルがないか確認する。
-4. `.gitignore` を作る。
-5. `git init` する。
-6. `git status` で入るファイルを確認する。
-7. 秘密情報・税務情報・契約情報の混入を確認する。
-8. 初回commitする。
-9. GitHubにprivateリポジトリを作る。
-10. 初回pushする。
+## Git導入結果
+- [x] Git管理状態を監査する
+- [x] `.gitignore` を作る
+- [x] Vault内に原本ファイルがないか確認する
+- [x] `git init -b main` する
+- [x] `git status` で入るファイルを確認する
+- [x] 初回commitする
+- [x] GitHub remoteを接続する
+- [x] `main` をGitHubへpushする
+- [x] push成功を確認する
 
-## 実行前に確認すること
-GitHubへ実際にpushする前に、次を確認する。
+## GitHub接続情報
 
 ```md
-リポジトリ名:
-公開範囲: private
-GitHubに保存してよい範囲:
-除外したいファイル:
+リポジトリ名: yoshihiro0001/MrBrain
+ブランチ: main
+remote: origin
+URL: https://github.com/yoshihiro0001/MrBrain.git
+初回commit: b7c38dd Initial MrBrain vault backup
 ```
 
 ## 判断
@@ -243,34 +233,36 @@ MrBrainをGitHubに保存するのは有効。
 
 ただし、必ず非公開リポジトリにする。
 
-## 不安を減らすための設計書提案
-次に作るべき設計書は、新規思想ではなく運用設計である。
+## 復元テスト方法
 
-候補名:
-```md
-MrBrain 保存・復元・拡張ルール
+安全のため、実際に戻す前に必ず差分を確認する。
+
+### 1. 現在状態を見る
+```bash
+git status --short
+git log --oneline -5
 ```
 
-置き場所:
-```md
-07_SYSTEM
+### 2. 変更内容を見る
+```bash
+git diff
 ```
 
-理由:
-- Git、Drive、MrBrain、NotebookLM、Codexの役割分担は、Projectを超えて毎回使う運用ルールだから
-- AIが編集前に参照する安全ルールとして使えるから
+### 3. 1ファイルだけ戻す場合
+```bash
+git restore "対象ファイル.md"
+```
 
-ただし、現時点では新規作成せず、この計画ファイルで設計を固める。
-内容が安定したら、`07_SYSTEM`へ正本化する。
+### 4. commit済みの過去版を確認する場合
+```bash
+git show b7c38dd:"00_HOME/HOME.md"
+```
 
-設計書に入れるべき章:
-1. 目的
-2. 役割分担
-3. Gitに入れるもの / 入れないもの
-4. 原本と索引のルール
-5. AI編集前の確認
-6. AI編集後の確認
-7. commitルール
-8. GitHub private運用
-9. 失敗時の戻し方
-10. 拡張時のLayer Integrity Check
+### 5. 大きく戻す場合
+破壊的なので、AIは勝手に実行しない。
+
+```bash
+git reset --hard b7c38dd
+```
+
+この操作は、ユーザーが明確に許可した時だけ行う。

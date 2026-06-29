@@ -67,12 +67,12 @@ DB保存候補
 
 ### 5. AI連携の接続
 - [ ] NotebookLMで得た重要メモをMrBrainへ移す運用を試す
-- [ ] MrBrainをGitHub privateリポジトリに保存するか確認する
-- [ ] MrBrainのGit管理状態を監査する
-- [ ] GitHub保存前に秘密情報チェックをする
+- [x] MrBrainをGitHub privateリポジトリに保存するか確認する
+- [x] MrBrainのGit管理状態を監査する
+- [x] GitHub保存前に秘密情報チェックをする
 - 滞り: AIごとに理解が分断される
 - 接続する部品: NotebookLM、ChatGPT、Codex、Obsidian、GitHub、MrBrain
-- 次の1手: Git初期化前に、Gitに入れるMarkdownとGoogle Driveに置く原本の境界を確認する
+- 次の1手: AI編集前後にcommitする運用を1回試す
 
 ### 6. Human Communication OSの接続
 - [ ] Human Communication OSを実際の返信で1回試し、返信スキル化する価値を確認する

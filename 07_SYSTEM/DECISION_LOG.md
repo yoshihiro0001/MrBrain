@@ -896,6 +896,27 @@
   - 必要なら`07_SYSTEM/MrBrain 保存・復元・拡張ルール.md`を正本化する
 ```
 
+## 2026-06-29 MrBrain GitHub初回保存を完了
+- 決定:
+  - MrBrainをGitリポジトリとして初期化し、`main` ブランチを作成した
+  - `.gitignore` を整備し、Obsidianローカル状態、原本ファイル、秘密情報、ビルド成果物を除外した
+  - 初回commit `b7c38dd Initial MrBrain vault backup` を作成した
+  - GitHub remote `origin https://github.com/yoshihiro0001/MrBrain.git` を設定し、`main` をpushした
+- 理由:
+  - AIがMrBrainを編集しても、必ず戻せる基準点を作るため
+  - Markdown、設計、ルール、Blueprintの履歴を安全に残すため
+- やめた案:
+  - `.obsidian` の作業状態やプラグインファイルをGit管理する
+  - 画像、PDF、Excel、動画などの原本をGit管理する
+  - push前に復元基準点を作らない
+- リスク:
+  - Markdown内の要約にも個人情報や税務情報が含まれる可能性があること
+  - 今後原本ファイルを追加した場合、`.gitignore`で除外されているか確認が必要なこと
+- 次にやること:
+  - AI編集前後に`git status`を確認し、必要に応じてcommitする
+  - 復元が必要な時は、まず`git diff`と`git log --oneline`で確認する
+```
+
 ## 追加テンプレート
 ```md
 ## YYYY-MM-DD 決定名
