@@ -1,7 +1,7 @@
 # MrBrain Evolution Map
 
 ## 目的
-MrBrainの進化を、commit履歴ではなく「ProjectのFlowがどこまで接続されたか」で追う。
+MrBrainの進化を、commit履歴ではなく「ProjectのFlowがどこまで接続され、次にどこへエネルギーを使う価値が最も高いか」で判断する。
 
 Gitは保存手段。
 Evolution Mapは、進化管理の正本である。
@@ -10,30 +10,77 @@ Evolution Mapは、進化管理の正本である。
 
 ```md
 今どこがボトルネックか
-次にどこへエネルギーを使えば、最も循環改善が大きいか
+そこを改善すると、全体の循環がどれだけ良くなるか
+今やる価値が一番高い理由は何か
 ```
 
 ## 現在のVersion
 ```md
-MrBrain v0.4
+MrBrain v0.5
 ```
 
 現在地:
 - GitHub保存とSnapshot復元は接続済み
 - Kernel RouterとLayer Integrity Checkは接続済み
-- 次は、各ProjectのFlowを現実で1つずつ進める段階
+- Evolution MapはFlow Decision Dashboardへ移行
+- 次は、Priority 1のFlowを現実データで進める段階
 
-## Flow Progress Dashboard
-| Project | Flow | Progress | Next Bottleneck | Next Best Action | Snapshot | Git Tag | Last Updated |
-|---|---|---|---|---|---|---|---|
-| MrBrain Core | 起動 → Routing → Layer確認 → Git保存 → Snapshot復元 | `Boot ████████`<br>`Router ████████`<br>`Layer ████████`<br>`Git ████████`<br>`Snapshot ██████░░` | Snapshot運用の実使用 | 次の大きな編集で、編集前後commitとsnapshotを1回実際に使う | `snapshot-20260629-mrbrain-github-initial-sync` | `snapshot-20260629-mrbrain-github-initial-sync` | 2026-06-29 |
-| JOY ホテルOS | Signal → Event → Pricing → Accounting → Tax | `Signal ████░░░░`<br>`Event ██░░░░░░`<br>`Pricing ██░░░░░░`<br>`Accounting ░░░░░░░░`<br>`Tax ░░░░░░░░` | Signal | 202号室を代表点にして、操作前後のPC画面、入力機器、料金表示を撮る | 未設定 | 未設定 | 2026-06-29 |
-| 会社運営OS / 経理 | Input → Approval → Monthly Closing → Tax Export → Filing | `Input ███░░░░░`<br>`Approval ██░░░░░░`<br>`Monthly █░░░░░░░`<br>`Tax Export █░░░░░░░`<br>`Filing ░░░░░░░░` | Input正本 | DB正本 + 人間承認の1か月テスト範囲を確定する | 未設定 | 未設定 | 2026-06-29 |
-| スプレッドシート整理 | Source → Index → Master → AI Handoff → DB移行 | `Source ████████`<br>`Index ██████░░`<br>`Master ████░░░░`<br>`AI Handoff ████░░░░`<br>`DB移行 ░░░░░░░░` | Master正本 | 5スプレッドシートの会社マスター正本候補を再検証する | 未設定 | 未設定 | 2026-06-29 |
-| NotebookLM / AI学習 | Source → Compression → Connection → Learning → Automation | `Source ████████`<br>`Compression ██████░░`<br>`Connection ████░░░░`<br>`Learning ██░░░░░░`<br>`Automation ░░░░░░░░` | Learning | NotebookLMで得た重要メモをMrBrainへ1回保存する | 未設定 | 未設定 | 2026-06-29 |
-| Human Communication OS | Principle → Template → Real Reply → Feedback → Skill化 | `Principle ████████`<br>`Template ██████░░`<br>`Real Reply ██░░░░░░`<br>`Feedback ░░░░░░░░`<br>`Skill化 ░░░░░░░░` | Real Reply | 実際の問い合わせ文を1つテンプレートに当てはめる | 未設定 | 未設定 | 2026-06-29 |
-| 投資家OS | Root Structure → Value → Network → Prediction → Execution | `Root ████████`<br>`Value ██████░░`<br>`Network ███░░░░░`<br>`Prediction ░░░░░░░░`<br>`Execution ░░░░░░░░` | Network | 会社カードMVPを今進めるか保留するか判断する | 未設定 | 未設定 | 2026-06-29 |
-| Approval Inbox / Command Center | Intake → Classification → Proposal → Approval → Execution → Learning | `Intake ██░░░░░░`<br>`Classification ██░░░░░░`<br>`Proposal █░░░░░░░`<br>`Approval ░░░░░░░░`<br>`Execution ░░░░░░░░`<br>`Learning ░░░░░░░░` | Intake | 最初の適用例をBooking.com / メール / 経理確認のどれにするか1つ決める | 未設定 | 未設定 | 2026-06-29 |
+## Flow Decision Dashboard
+| Priority | Project | Flow | Current Position | Next Bottleneck | Expected Return | Confidence | Next Best Action | Snapshot | Git Tag | Last Updated |
+|---:|---|---|---|---|---|---|---|---|---|---|
+| 1 | JOY ホテルOS | Signal → Event → Pricing → Sales → Accounting → Tax | Signal取得Blueprintはあるが、現場信号の実データがまだない | Signal | ★★★★★ | 80%<br>理由: Goalは明確。信号取得方式は未確認 | 202号室を代表点にして、操作前後のPC画面、入力機器、料金表示を撮る | 未設定 | 未設定 | 2026-06-29 |
+| 2 | 会社運営OS / 経理 | Input → Approval → Monthly Closing → Tax Export → Filing | DB正本 + 人間承認の方向は決定。1か月テスト範囲が未確定 | Input正本 | ★★★★★ | 75%<br>理由: 方向性は明確だが、最初のDB項目が未確定 | DB正本 + 人間承認の1か月テスト範囲を確定する | 未設定 | 未設定 | 2026-06-29 |
+| 3 | MrBrain Core | 起動 → Routing → Layer確認 → Git保存 → Snapshot復元 | GitHub保存、Snapshot復元、AGENTS導線は接続済み。実運用テストが未完了 | Snapshot運用の実使用 | ★★★★☆ | 90%<br>理由: 仕組みは完成。実使用だけ未検証 | 次の大きな編集で、編集前後commitとsnapshotを1回実際に使う | `snapshot-20260629-mrbrain-github-initial-sync` | `snapshot-20260629-mrbrain-github-initial-sync` | 2026-06-29 |
+| 4 | スプレッドシート整理 | Source → Index → Master → AI Handoff → DB移行 | 5シート索引はある。会社マスターの正本候補がまだ未検証 | Master正本 | ★★★★☆ | 80%<br>理由: 既存資料は揃っているが、正本確定には再確認が必要 | 5スプレッドシートの会社マスター正本候補を再検証する | 未設定 | 未設定 | 2026-06-29 |
+| 5 | Human Communication OS | Principle → Template → Real Reply → Feedback → Skill化 | 原則とテンプレートはある。実際の返信でまだ検証していない | Real Reply | ★★★☆☆ | 85%<br>理由: 原則は明確。実例投入で進む | 実際の問い合わせ文を1つテンプレートに当てはめる | 未設定 | 未設定 | 2026-06-29 |
+| 6 | NotebookLM / AI学習 | Source → Compression → Connection → Learning → Automation | NotebookLMの役割は整理済み。MrBrainへ戻す運用が未定着 | Learning | ★★★☆☆ | 80%<br>理由: 使い分けは明確だが、運用回数が少ない | NotebookLMで得た重要メモをMrBrainへ1回保存する | 未設定 | 未設定 | 2026-06-29 |
+| 7 | Approval Inbox / Command Center | Intake → Classification → Proposal → Approval → Execution → Learning | 汎用コンポーネントは整理済み。最初の適用例が未決定 | Intake | ★★★★☆ | 60%<br>理由: 価値は高いが、入口Projectが未確定 | 最初の適用例をBooking.com / メール / 経理確認のどれにするか1つ決める | 未設定 | 未設定 | 2026-06-29 |
+| 8 | 投資家OS | Root Structure → Value → Network → Prediction → Execution | 思想と会社カード構想はある。Networkと予測の実装は未着手 | Network | ★★★★☆ | 65%<br>理由: 価値は高いが、現在の最優先Goalからは離れる | 会社カードMVPを今進めるか保留するか判断する | 未設定 | 未設定 | 2026-06-29 |
+
+## 評価基準
+### Expected Return
+Expected Returnは、時間短縮ではなく、循環改善量で評価する。
+
+| 評価 | 意味 |
+|---|---|
+| ★★★★★ | ここがつながると、後続Flowが一気に動く |
+| ★★★★☆ | 複数Projectへ波及し、かなり大きく循環が改善する |
+| ★★★☆☆ | 使う頻度は高いが、波及範囲は限定的 |
+| ★★☆☆☆ | 局所改善。今すぐでなくてもよい |
+| ★☆☆☆☆ | 効果が小さい、または保留でよい |
+
+### Confidence
+Confidenceは、Next Bottleneck判断への確信度である。
+
+```md
+90%以上: ほぼ確実
+70〜89%: 十分に妥当
+50〜69%: 価値はあるが情報不足
+50%未満: 先に確認が必要
+```
+
+### Priority
+Priorityは、Expected Returnだけでは決めない。
+
+次を総合して決める。
+
+- Expected Return
+- Confidence
+- 現在のGoal
+- 他Projectへの波及効果
+- エネルギーコスト
+
+## Priority一覧
+| Priority | Project | Next Bottleneck | Expected Return | Confidence | 優先理由 |
+|---:|---|---|---|---|---|
+| 1 | JOY ホテルOS | Signal | ★★★★★ | 80% | 売上源流がつながると、Pricing、Sales、Accounting、Taxまで後続Flowが動くため |
+| 2 | 会社運営OS / 経理 | Input正本 | ★★★★★ | 75% | 経理、承認、月次、税務の土台になるため |
+| 3 | MrBrain Core | Snapshot運用の実使用 | ★★★★☆ | 90% | AI編集の安全性が上がり、全Projectの復元性が上がるため |
+| 4 | スプレッドシート整理 | Master正本 | ★★★★☆ | 80% | 会社情報の正本が決まると、経理、税務、AI引き継ぎが安定するため |
+| 5 | Human Communication OS | Real Reply | ★★★☆☆ | 85% | テンプレートを実用に接続すると、接客・返信の摩擦が下がるため |
+| 6 | NotebookLM / AI学習 | Learning | ★★★☆☆ | 80% | 学習結果をMrBrainへ戻せると、同じ理解の繰り返しが減るため |
+| 7 | Approval Inbox / Command Center | Intake | ★★★★☆ | 60% | 将来価値は高いが、最初の入口が未確定で情報不足のため |
+| 8 | 投資家OS | Network | ★★★★☆ | 65% | 価値は高いが、現在の最優先GoalであるJOY・経理から離れるため |
 
 ## 最優先ボトルネック
 現時点で最も循環改善が大きい場所:
@@ -44,8 +91,9 @@ JOY ホテルOS / Signal
 
 理由:
 - 売上承認、月次集計、経理、税務は、売上源流が取れないと流れない
+- SignalがEvent化できると、Pricing、Sales、Accounting、Taxへ接続できる
 - 202号室を代表点にすれば、全14部屋へ展開できる可能性がある
-- ここがつながると、ホテルOS、会社運営OS、経理OSが同時に前進する
+- 会社運営OS / 経理にも波及する
 
 Next Best Action:
 ```md
@@ -79,8 +127,8 @@ Snapshotを作る時は、単に保存しない。
 | 優先 | Project | 育てるFlow | 成功条件 | Snapshot候補 |
 |---:|---|---|---|---|
 | 1 | JOY ホテルOS | Signal → Event | 202号室の1操作について、現場動作からPC処理までの対応表ができる | `after-YYYYMMDD-joy-202-signal-event` |
-| 2 | MrBrain Core | Git保存 → Snapshot復元 | 大きな編集前後でsnapshotを1回使う | `after-YYYYMMDD-mrbrain-snapshot-operation` |
-| 3 | 会社運営OS / 経理 | Input → Approval | 1か月分の最小DB正本テスト範囲が決まる | `after-YYYYMMDD-accounting-approval-test` |
+| 2 | 会社運営OS / 経理 | Input → Approval | 1か月分の最小DB正本テスト範囲が決まる | `after-YYYYMMDD-accounting-approval-test` |
+| 3 | MrBrain Core | Git保存 → Snapshot復元 | 大きな編集前後でsnapshotを1回使う | `after-YYYYMMDD-mrbrain-snapshot-operation` |
 | 4 | Human Communication OS | Template → Real Reply | 実際の問い合わせ返信を1件作り、結果を記録する | `after-YYYYMMDD-human-communication-first-reply` |
 
 ## Versionの考え方
@@ -90,12 +138,12 @@ Snapshotを作る時は、単に保存しない。
 | v0.2 | Runtime Loopで循環の考え方が入った |
 | v0.3 | Kernel Routerで最小読み込みとRoutingができた |
 | v0.4 | GitHub保存とSnapshot復元ができた |
-| v0.5 | Flow Progress Dashboardで、Projectごとの詰まりと次の1手が見える |
+| v0.5 | Flow Decision Dashboardで、Projectごとの詰まり、期待リターン、確信度、優先度が見える |
 | v0.6 | JOY Signal → Event が現実データで接続される |
 
 ## 運用ルール
-- Evolution Mapは、能力一覧ではなくFlow Progress Dashboardとして使う
-- Projectごとに、Flow、Progress、Next Bottleneck、Next Best Actionを1つに絞る
+- Evolution Mapは、Flow Decision Dashboardとして使う
+- Projectごとに、Current Position、Next Bottleneck、Expected Return、Confidence、Priority、Next Best Actionを1つに絞る
 - Gitは保存、Evolution Mapは進化管理
 - Snapshotを作ったら、改善したFlow、改善理由、戻る目的を記録する
 - 迷ったら「どの日付に戻るか」ではなく「どのFlowに戻るか」で判断する
@@ -109,7 +157,7 @@ Snapshotを作る時は、単に保存しない。
   - Evolution Mapは説明書ではなく進捗表として使う
 - Project:
   - 具体的な確認項目やBlueprintは `04_PROJECTS` に置く
-  - Evolution Mapには、詰まりと次の1手だけを書く
+  - Evolution Mapには、詰まり、評価、次の1手だけを書く
 
 この変更は、新しいPrincipleではない。
-既存の接続・循環・適応の考え方を、Project進捗の見える化に使う運用レイヤーである。
+既存の接続・循環・適応の考え方を、Project判断の精度向上に使う運用レイヤーである。
