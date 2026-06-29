@@ -70,6 +70,7 @@ DB保存候補
 - [x] MrBrainをGitHub privateリポジトリに保存するか確認する
 - [x] MrBrainのGit管理状態を監査する
 - [x] GitHub保存前に秘密情報チェックをする
+- [ ] 大きな編集前後はsnapshotを作る
 - 滞り: AIごとに理解が分断される
 - 接続する部品: NotebookLM、ChatGPT、Codex、Obsidian、GitHub、MrBrain
 - 次の1手: AI編集前後にcommitする運用を1回試す
