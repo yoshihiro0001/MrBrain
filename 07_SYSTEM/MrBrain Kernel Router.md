@@ -365,6 +365,8 @@ Layer Integrityは、問題がない場合は省略してよい。
 | 新しい作業 | `00_HOME/TASKS.md` |
 | 対象別の設計 | `04_PROJECTS` |
 
+大きな構造変更やProject追加後は、必要に応じてGit commit / snapshotへ戻す。
+
 ## 重要
 目的は、ファイル数を減らすことではない。
 

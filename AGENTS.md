@@ -62,6 +62,14 @@ Learn
 
 変更した内容は、必要に応じて記録する。
 
+## Git / Snapshot
+- 大きな編集前には、必要に応じてsnapshotを作る
+- 編集後は `git status` と差分を確認する
+- 問題なければcommitする
+- 大きな節目では意味のあるtagを付ける
+- 原本ファイル、画像、PDF、秘密情報はGitに入れない
+- 復元手順の詳細は `07_SYSTEM/MrBrain 保存・復元・拡張ルール.md` を参照
+
 ## 禁止
 - 新しいPrincipleを増やさない
 - Blueprintを量産しない
