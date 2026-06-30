@@ -281,3 +281,89 @@ Human Agentが材料を集めると、AI Agentは次を推定できる。
 - 自社OSで最初に作るべき画面とDB
 - 不足している情報は何か
 - 次のHuman Agent Missionは何か
+
+---
+
+## 12. 🧭 Mission設計ルール
+Human Agent Missionは、情報量を最小化するために作るのではない。
+
+目的は、少ないHuman Costで、AI AgentのUnderstanding Gainが最も大きくなるEvidence Setを選ぶこと。
+
+```md
+Mission Value = Understanding Gain ÷ Human Cost
+```
+
+AI Agentは、Missionを作る時に次の順番で考える。
+
+```md
+Goal
+↓
+Required Evidence Set
+↓
+Mission Candidate
+↓
+Human Cost評価
+↓
+Understanding Gain評価
+↓
+Mission Value評価
+↓
+Next Best Mission
+↓
+Human Agent実行
+↓
+AI理解度 %
+↓
+Gap Analysis
+↓
+次のRequired Evidence Set
+```
+
+重要:
+過去のRepresentative Pointを固定しない。
+202号室は常に正解ではない。
+Goalごとに、最も安全で、最も理解が進むRepresentative Pointを選ぶ。
+
+例:
+
+```md
+Goal:
+信号取得レイヤーを推定したい
+
+Required Evidence Set:
+- PC裏写真
+- 入力機器写真
+- キーボード型番
+- 操作前後画面
+- 料金表
+
+Representative Point:
+業務影響が少なく、操作前後の変化を安全に観測できる部屋
+```
+
+## 13. 📈 Mission Value例
+| Evidence | Understanding Gain | Human Cost | Mission Value |
+|---|---|---|---|
+| PC裏全体写真 | 高 | 低 | 高 |
+| 料金表写真 | 高 | 低 | 高 |
+| デバイスマネージャー確認 | 高 | 中 | 中〜高 |
+| COM番号確認 | 中 | 高 | 低〜中 |
+
+AI Agentは、細かい情報を大量に求めるのではなく、Human Agentの負担に対して理解度が最も伸びるMissionを1つ選ぶ。
+
+Mission完了後、AI Agentは次を返す。
+
+```md
+理解度:
+72%
+
+残りEvidence:
+- 全部屋料金表
+- 宿泊切替条件
+- COMポート番号
+
+これを取得すると:
+95%程度まで推定可能
+```
+
+数字は目安であり、断定ではない。
