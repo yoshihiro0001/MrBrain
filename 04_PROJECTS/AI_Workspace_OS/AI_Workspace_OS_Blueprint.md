@@ -309,6 +309,34 @@ Output: ホテル画面、売上
 - [ ] メール対応
 - [ ] 人間関係
 - [ ] AI Workspace OS
+- [ ] AIの思考プロセス
+
+検証観点:
+AIが問題を解釈し、回答を生成する過程も、Universal Event Modelで説明できるかを検証する。
+
+```md
+Input
+↓
+Event
+↓
+Rule
+↓
+State
+↓
+Output(UI)
+```
+
+確認したい対象:
+
+- [ ] ChatGPT
+- [ ] Codex
+- [ ] Cursor
+- [ ] NotebookLM
+- [ ] 将来追加されるAI
+
+これらの内部処理や運用フローも、Universal Event Modelで共通に説明できるかを確認する。
+
+もし3〜5種類以上のAI・ツールでも成立するなら、Universal Event Modelは「人間の思考」ではなく、「AIを含めた情報処理の共通構造」である可能性がある。
 
 昇格条件:
 3〜5分野以上で同じ構造が成立した場合のみ、Universal Event ModelとしてPrinciple候補に昇格を検討する。
