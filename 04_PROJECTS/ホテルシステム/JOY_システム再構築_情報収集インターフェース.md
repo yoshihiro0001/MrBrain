@@ -454,6 +454,98 @@ Evidence Set Value = Understanding Gain ÷ Human Cost
 
 現時点ではFuture Candidateとして保存する。
 
+### Future Candidate: Human Agent Cognitive Flow
+目的:
+Human Agentが自然に行動できる文章やLINEテンプレートを作ることではなく、Human Agentはどの順番で情報を受け取ると最も自然に動けるかを研究する。
+
+現在の発見:
+良かったのは文章そのものではなく、情報の並ぶ順番である可能性がある。
+
+例:
+
+```md
+AI Agentから調査依頼
+↓
+JOY Flow Mission
+↓
+今日お願いしたいのはこれだけ
+↓
+ホテルシステム裏側調査
+↓
+写真を集める
+↓
+チェックリスト
+↓
+心理的ハードルを下げる一文
+↓
+禁止事項
+↓
+写真を送る
+```
+
+仮説:
+Human Agentは文章を読んでいるのではなく、意味の塊（Chunk）を順番に処理している可能性がある。
+
+現時点のCognitive Flow候補:
+
+```md
+Identity
+誰から
+↓
+Context
+何のMission
+↓
+Scope
+今日はこれだけ
+↓
+Meaning
+何のため
+↓
+Action
+何をする
+↓
+Barrier Reduction
+止まりそうな理由を一文で下げる
+↓
+Risk
+やってはいけないこと
+↓
+Completion
+何をすれば終わりか
+```
+
+重要:
+保存したいのは「写真はきれいじゃなくてOK」という文章ではない。
+保存したいのは、MissionごとにHuman Agentが止まりそうな理由をAI Agentが推定し、最小の一文で心理的摩擦を減らす処理である。
+
+認知Chunk候補:
+- 余白
+- 空行
+- 区切り線
+- アイコン
+- 文章の短さ
+
+これらは単なるデザインではなく、Human Agentの認知負荷を下げるために、意味の塊を分ける処理かもしれない。
+
+検証対象:
+- [ ] 投資
+- [ ] 人体
+- [ ] 経理
+- [ ] メール返信
+- [ ] 清掃
+
+検証観点:
+- Human Agentが最初の一歩を踏み出しやすいか
+- 途中で止まる回数が減るか
+- Mission完了率が上がるか
+- 読み返しが減るか
+- 余白、区切り、アイコンが理解を助けているか
+
+昇格条件:
+3〜5分野で、Cognitive Flowの順番とChunk設計によりHuman Agentの行動開始率、完了率、継続率が改善すること。
+
+現時点ではFuture Candidateとして保存する。
+
 ### 境界レビュー
 JOY固有:
 - PC裏写真
@@ -465,9 +557,16 @@ JOY固有:
 Human Agent全般に使える可能性がある上流原理:
 - Human Agentが止まる心理的摩擦を先に推定する
 - 摩擦を最小の一文で下げる
+- Human Agentが自然に動ける情報順序を設計する
+- 意味の塊（Chunk）で認知負荷を下げる
 - Evidence単体ではなくEvidence SetでMission Valueを評価する
 - Human Costを増やさずUnderstanding Gainを増やす
 - 次のMissionはAI理解度とGap Analysisから作る
+
+弱い部分:
+- 現時点ではJOYのLINE文レビューから出た仮説であり、他分野でのEvidenceがない
+- Human Agentごとの性格、IT理解度、現場経験によって最適な順番が変わる可能性がある
+- 行動開始率や完了率を実測しないと、文章の印象だけで判断してしまう可能性がある
 
 自己レビュー:
 - Layer Leak: なし。JOY Project内のFuture Candidateとして保存している。
