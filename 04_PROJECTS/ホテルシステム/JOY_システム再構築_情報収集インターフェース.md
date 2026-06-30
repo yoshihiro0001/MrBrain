@@ -367,3 +367,110 @@ Mission完了後、AI Agentは次を返す。
 ```
 
 数字は目安であり、断定ではない。
+
+---
+
+## 14. 🔬 Human Agent設計 Future Candidate
+この節は、JOY Project内のHuman Agent設計仮説である。
+
+新しいPrincipleではない。
+Kernel、Principle、AI_CONTEXT、AGENTSには反映しない。
+
+### Future Candidate: Barrier Prediction / Barrier Reduction
+目的:
+Human Agent Missionを生成する時に、Human Agentがどこで止まるかを先に推定し、心理的摩擦を最小の一文で下げる。
+
+現在の発見:
+「写真はきれいじゃなくてOK」「分からなければ写真だけでOK」の価値は、文章そのものではない。
+価値があるのは、Human Agentが止まる理由を予測し、その摩擦を短い言葉で取り除く思考アルゴリズムである。
+
+想定Flow:
+
+```md
+Mission
+↓
+Barrier Prediction
+Human Agentが止まりそうな理由を推定する
+↓
+Barrier Reduction
+一番短い言葉で摩擦を下げる
+↓
+Human Agent実行
+```
+
+例:
+
+| 想定Barrier | Barrier Reduction |
+|---|---|
+| 写真をきれいに撮らないといけないと思う | 写真はきれいでなくてOK |
+| 分からない機器を触る必要があると思う | 触らず写真だけでOK |
+| 正解を書かないといけないと思う | 分からない項目は空欄でOK |
+| 作業が長くなりそうに感じる | まず1つだけ操作を見る |
+
+検証対象:
+- [ ] JOY PCまわり確認Mission
+- [ ] 清掃Mission
+- [ ] 料金表収集Mission
+- [ ] 経理Evidence収集Mission
+- [ ] メール返信確認Mission
+
+昇格条件:
+3〜5Projectで、Barrier Prediction / Barrier ReductionによりMission完了率、継続率、心理的負担が改善すること。
+
+現時点ではFuture Candidateとして保存する。
+
+### Future Candidate: Evidence Set Value
+目的:
+Evidenceを1つずつ評価するのではなく、AI理解度を大きく伸ばす最小の組み合わせとして評価する。
+
+現在の発見:
+`キーボード型番`だけではなく、`キーボード全体写真 + 型番写真`の方が、Human Costはほぼ同じでもUnderstanding Gainが高い可能性がある。
+
+Mission設計では、情報量ではなく、Human Costに対するUnderstanding Gainが最大になるEvidence Setを選ぶ。
+
+```md
+Evidence Set Value = Understanding Gain ÷ Human Cost
+```
+
+例:
+
+| Evidence Set | Understanding Gain | Human Cost | Value |
+|---|---|---|---|
+| キーボード型番だけ | 中 | 低 | 中 |
+| キーボード全体写真 + 型番写真 | 高 | 低 | 高 |
+| PC裏全体写真 + 入力機器写真 | 高 | 低 | 高 |
+| 操作前画面 + 操作後画面 | 高 | 低 | 高 |
+| COM番号確認だけ | 中 | 高 | 低〜中 |
+
+検証対象:
+- [ ] JOY PC入力経路
+- [ ] 料金表と料金Rule
+- [ ] 清掃状態
+- [ ] 経理証憑
+- [ ] メール対応
+
+昇格条件:
+複数Projectで、Evidence単体よりEvidence Setで設計した方が理解度、完了率、継続率が上がること。
+
+現時点ではFuture Candidateとして保存する。
+
+### 境界レビュー
+JOY固有:
+- PC裏写真
+- キーボード型番
+- 操作前後画面
+- 料金表
+- 伝票
+
+Human Agent全般に使える可能性がある上流原理:
+- Human Agentが止まる心理的摩擦を先に推定する
+- 摩擦を最小の一文で下げる
+- Evidence単体ではなくEvidence SetでMission Valueを評価する
+- Human Costを増やさずUnderstanding Gainを増やす
+- 次のMissionはAI理解度とGap Analysisから作る
+
+自己レビュー:
+- Layer Leak: なし。JOY Project内のFuture Candidateとして保存している。
+- Kernel混入: なし。まだ3〜5Projectで検証されていない。
+- Principle化: しない。現時点ではHuman Agent設計の仮説。
+- AI_CONTEXT / AGENTS: 変更不要。毎回読む情報ではない。
