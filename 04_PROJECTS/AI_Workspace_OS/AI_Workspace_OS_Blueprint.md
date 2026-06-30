@@ -255,3 +255,63 @@ Git
 AI Workspace OSを3〜5回実運用し、必要性が確認できたら昇格を検討する。
 
 現時点ではKernelやOperation Layerには実装しない。
+
+### Universal Event Model（Future Candidate）
+目的:
+Root Structureを見つけた後、対象を最小構造へ分解する共通モデルになり得るかを検証する。
+
+現在の仮説:
+
+```md
+Input
+↓
+Event
+↓
+Rule
+↓
+State
+↓
+Output(UI)
+```
+
+説明:
+
+| 要素 | 意味 |
+|---|---|
+| Input | 最初に世界へ入ってくる入力、刺激、信号 |
+| Event | 実際に発生した出来事 |
+| Rule | その出来事をどう解釈、計算、変換するか |
+| State | 現在の状態、属性、履歴 |
+| Output | 人間が見る画面、結果、通知、行動 |
+
+現在確認できている例:
+
+```md
+ホテル
+↓
+Input: 電気信号
+↓
+Event: 入室、退室、延長
+↓
+Rule: 料金計算
+↓
+State: 利用中、清掃中
+↓
+Output: ホテル画面、売上
+```
+
+今後検証する対象:
+
+- [ ] 投資
+- [ ] 人体
+- [ ] 経理
+- [ ] 契約
+- [ ] メール対応
+- [ ] 人間関係
+- [ ] AI Workspace OS
+
+昇格条件:
+3〜5分野以上で同じ構造が成立した場合のみ、Universal Event ModelとしてPrinciple候補に昇格を検討する。
+
+現時点ではFuture Candidateとして保存する。
+Kernel、Principle、AI_CONTEXTには反映しない。
