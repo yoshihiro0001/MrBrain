@@ -391,6 +391,73 @@ Output(UI)
 現時点ではFuture Candidateとして保存する。
 Kernel、Principle、AI_CONTEXTには反映しない。
 
+### Processing Engine Hypothesis（Future Candidate）
+目的:
+Universal Event Model内の`Rule`は、静的なルールではなく、状態を変換するProcessing Engineとして表現した方が自然ではないかを検証する。
+
+Status:
+Future Candidate
+
+Evidence:
+
+| 分野 | 状態 |
+|---|---|
+| Investment | ✅ 条件付き |
+| Hotel | ⬜ |
+| Human Body | ⬜ |
+| AI | ⬜ |
+| Accounting | ⬜ |
+
+Confidence:
+25%
+
+現在の仮説:
+
+```md
+Input
+↓
+Event
+↓
+Processing Engine
+↓
+State
+↓
+Output
+```
+
+説明:
+投資検証では、`Rule`を「固定された判断ルール」と見るより、Eventを価値、財務状態、市場評価へ変換する処理エンジンとして見た方が自然だった。
+
+例:
+
+```md
+JDI
+↓
+Input: 資金調達、工場売却、技術開発、受注
+↓
+Event: 契約、量産、構造改革、IR発表
+↓
+Processing Engine: 固定費構造、資金繰り、希薄化、商業化、損益分岐点
+↓
+State: 赤字、負の純資産、構造改革中、量産前
+↓
+Output: 売上、利益、株価、時価総額、市場評価
+```
+
+検証対象:
+
+- [ ] ホテル
+- [ ] 人体
+- [ ] AI
+- [ ] 経理
+
+Promotion Rule:
+ホテル、人体、AI、経理を含む3〜5分野でProcessing Engineの方が一貫して自然なら、Universal Event Modelの改訂候補としてレビューする。
+
+注意:
+現時点ではUniversal Event Model自体は修正しない。
+Kernel、Principle、AI_CONTEXTには反映しない。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
