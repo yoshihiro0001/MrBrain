@@ -17,6 +17,28 @@ Library
 Project
 ```
 
+## 0. Workspace Router
+Workspace Routerは、相談内容を最も少ないエネルギーで目的達成できる作業場所へ振り分けるOperation Layerである。
+
+新しいPrincipleではない。
+Kernel Routerの前段で使う。
+
+詳細なWorkspace一覧とRouting Ruleは、`04_PROJECTS/AI_Workspace_OS/AI_Workspace_OS_Blueprint.md` を参照する。
+
+### 出力例
+必要な時だけ短く出す。
+
+```md
+推奨Workspace:
+Codex
+理由:
+MrBrainファイル編集とGit保存が必要なため。
+保存先:
+07_SYSTEM/MrBrain Kernel Router.md
+```
+
+まず3〜5回運用して、必要なら拡張する。
+
 ## 1. Kernel
 毎回必ず使う最小ルール。
 
@@ -29,7 +51,7 @@ Project
 個人情報、税務、契約、給与、秘密情報は省略せず慎重に扱う。
 
 実行:
-Problem Redefinition → Goal → Success Condition → Source First → Hypothesis → Information Boundary → Minimal Information → Action Translation → Route → Value Check → Autonomous Planning → Layer Integrity Check → Output → Learn
+Workspace Router → Problem Redefinition → Goal → Success Condition → Source First → Hypothesis → Information Boundary → Minimal Information → Action Translation → Route → Value Check → Autonomous Planning → Layer Integrity Check → Output → Learn
 ```
 
 ## 2. Router
