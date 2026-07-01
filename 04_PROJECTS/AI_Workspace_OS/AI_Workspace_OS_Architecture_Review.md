@@ -284,6 +284,102 @@ flowchart TD
     EV["Evolution Map"] -. "Flow進捗 / Priority" .-> MB
 ```
 
+## Evolution Rule（Architecture Rule）
+
+今後は、Future Candidateを増やすことよりも、既存構造で説明できるかを優先する。
+
+OSは、概念を増やすことが目的ではない。
+最小構造で、最大のRealityを説明し、最大のExecutionを生むことが目的である。
+
+新しい概念を思いついた場合、まず次を確認する。
+
+### 1. 既存Candidateで説明できないか
+
+この概念は既存Candidateで説明できないか。
+
+説明できるなら、新しいCandidateは作らない。
+既存CandidateへEvidenceを追加する。
+
+### 2. Mergeできないか
+
+独立Engineより、既存Layerへ吸収した方が軽くならないか確認する。
+
+例:
+- Capability RouterはCapability Registryへ吸収できないか。
+- Processing Engine HypothesisはUniversal Event Model改訂候補、またはDecision Engineへ吸収できないか。
+
+### 3. Projectだけで十分ではないか
+
+HOTEL JOYだけの発見なら、Project内Future Candidateとして育てる。
+
+Coreへ昇格しない。
+
+### 4. Evidenceは十分か
+
+3〜5Projectで自然に成立するかを確認する。
+
+例だけで判断しない。
+
+### 5. Realityを説明する別表現ではないか
+
+新しい概念ではなく、次のどれかの説明方法ではないか確認する。
+
+- Reality Model
+- Universal Event Model
+- Capability
+- Decision
+- Execution
+- Learning
+
+### 新しい運用フロー
+
+今後の基本は次の流れにする。
+
+```md
+思いつく
+↓
+既存Candidateで説明できるか確認
+↓
+ProjectでEvidence収集
+↓
+Architecture Review
+↓
+必要ならFuture Candidate追加
+↓
+Core昇格
+```
+
+### Observation Discussion
+
+現時点では、Representative EvidenceはObservationへ統合できる可能性がある。
+
+仮説:
+
+```md
+Reality
+↓
+Observation
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Learning
+↓
+Reality
+```
+
+ただし、ObservationはまだEvidence不足である。
+
+そのため、現時点ではFuture Candidateにも追加しない。
+Architecture Review内のDiscussionとして残す。
+
+Observationが3〜5Projectで自然に成立し、Representative Evidence SetやHuman Agentの情報収集をより軽く説明できる場合のみ、将来レビューする。
+
 ## Evolution Review
 
 AI Workspace OSは、Future Candidateを増やすフェーズから、OSを育てるフェーズへ移行できる。
@@ -340,3 +436,10 @@ Merge候補:
 
 改善案:
 Future Candidateごとに「次に検証するProject」を1つだけ決める。複数候補を同時に育てず、HOTEL JOYから順にEvidenceを戻す。
+
+Evolution Rule自己レビュー:
+- Layer Leak: なし。Architecture Review内の運用ルールであり、Kernel / Principle / AI_CONTEXT / AGENTSには入れていない。
+- 概念追加: なし。ObservationもFuture Candidate化せずDiscussionに留めた。
+- Architecture Ruleとしての自然さ: ある。Future Candidateを増やす前に既存構造で説明するためのルールである。
+- Kernelへ入れる段階: まだ早い。AI Workspace OS Project内で運用し、有効性を確認してから判断する。
+- Operation Ruleとしての適切さ: ある。ProjectでEvidenceを集め、Architecture Reviewで統合判断する流れに合っている。
