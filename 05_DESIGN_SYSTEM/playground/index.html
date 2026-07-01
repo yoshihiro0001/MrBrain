@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MrBrain Design Playground</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root {
+        --bg: #080a0f;
+        --panel: rgba(255, 255, 255, 0.08);
+        --panel-strong: rgba(255, 255, 255, 0.14);
+        --text: #f7f8fb;
+        --muted: rgba(247, 248, 251, 0.66);
+        --line: rgba(255, 255, 255, 0.14);
+        --accent: #34d399;
+        --danger: #fb7185;
+        --warning: #fbbf24;
+        --radius: 16px;
+        --space: 24px;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+        --glass-blur: 18px;
+        --motion: 220ms;
+        --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 22% 0%, rgba(52, 211, 153, 0.16), transparent 30%),
+          radial-gradient(circle at 90% 12%, rgba(148, 163, 184, 0.15), transparent 28%),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        letter-spacing: 0;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: auto;
+        padding: 22px;
+        border-right: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(var(--glass-blur));
+      }
+
+      .main {
+        padding: 28px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--panel-strong);
+        border: 1px solid var(--line);
+        font-weight: 800;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 18px;
+        line-height: 1.25;
+      }
+
+      .sub {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 3px;
+      }
+
+      .control-group {
+        padding: 14px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .control-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .segmented.wide {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .option {
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.045);
+        color: var(--muted);
+        cursor: pointer;
+        transition: background var(--motion), color var(--motion), transform 120ms, border-color var(--motion);
+      }
+
+      .option:hover {
+        color: var(--text);
+        transform: translateY(-1px);
+      }
+
+      .option.active {
+        background: rgba(52, 211, 153, 0.18);
+        border-color: rgba(52, 211, 153, 0.5);
+        color: var(--text);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: var(--space);
+        align-items: stretch;
+        margin-bottom: var(--space);
+      }
+
+      .panel,
+      .card,
+      .artifact,
+      .compare-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(var(--glass-blur));
+      }
+
+      .panel {
+        padding: calc(var(--space) * 1.05);
+      }
+
+      .eyebrow {
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .display {
+        font-size: clamp(32px, 5vw, 72px);
+        line-height: 0.95;
+        max-width: 860px;
+      }
+
+      .lead {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 680px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .primary,
+      .secondary {
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) * 0.75);
+        padding: 12px 15px;
+        color: var(--text);
+        cursor: pointer;
+        transition: transform 120ms, background var(--motion), border-color var(--motion);
+      }
+
+      .primary {
+        background: var(--accent);
+        color: #04110c;
+        border-color: transparent;
+        font-weight: 800;
+      }
+
+      .secondary {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .primary:active,
+      .secondary:active {
+        transform: scale(0.98);
+      }
+
+      .decision {
+        display: grid;
+        gap: 14px;
+      }
+
+      .big-number {
+        font-size: 56px;
+        line-height: 0.9;
+        font-weight: 850;
+      }
+
+      .status-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border-radius: 999px;
+        padding: 7px 10px;
+        background: rgba(52, 211, 153, 0.14);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .section {
+        margin-top: var(--space);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: end;
+        margin-bottom: 14px;
+      }
+
+      .section h2 {
+        font-size: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        padding: 16px;
+        min-height: 150px;
+        transition: transform var(--motion), background var(--motion), border-color var(--motion);
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        background: var(--panel-strong);
+      }
+
+      .icon {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        margin-bottom: 14px;
+      }
+
+      .card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      .card p,
+      .artifact p,
+      .compare-card p {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .artifact-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .artifact {
+        padding: 16px;
+        min-height: 220px;
+      }
+
+      .line-preview {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .bubble {
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 10px 12px;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .mission-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .check {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        color: var(--text);
+        font-size: 13px;
+      }
+
+      .box {
+        width: 18px;
+        height: 18px;
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        display: grid;
+        place-items: center;
+        color: var(--accent);
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 13px;
+      }
+
+      .table td,
+      .table th {
+        border-top: 1px solid var(--line);
+        padding: 10px 4px;
+        text-align: left;
+      }
+
+      .table td:last-child,
+      .table th:last-child {
+        text-align: right;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .compare-card {
+        padding: 16px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .approve-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .mini-button {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 8px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+      }
+
+      .mini-button.ok {
+        background: rgba(52, 211, 153, 0.2);
+        color: var(--accent);
+      }
+
+      .token-output {
+        white-space: pre-wrap;
+        overflow: auto;
+        max-height: 240px;
+        padding: 14px;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.24);
+        color: var(--muted);
+        font: 12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      body.light {
+        --bg: #f6f7f8;
+        --panel: rgba(255, 255, 255, 0.82);
+        --panel-strong: #ffffff;
+        --text: #101318;
+        --muted: rgba(16, 19, 24, 0.62);
+        --line: rgba(16, 19, 24, 0.12);
+        --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+        color-scheme: light;
+      }
+
+      body.minimal {
+        --panel: transparent;
+        --panel-strong: rgba(255, 255, 255, 0.05);
+        --shadow: none;
+        --glass-blur: 0px;
+      }
+
+      body.glass {
+        --panel: rgba(255, 255, 255, 0.1);
+        --panel-strong: rgba(255, 255, 255, 0.18);
+        --shadow: 0 28px 96px rgba(0, 0, 0, 0.36);
+        --glass-blur: 24px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 1ms !important;
+          transition-duration: 1ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: relative;
+          height: auto;
+        }
+
+        .hero,
+        .artifact-grid,
+        .compare,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useEffect, useMemo, useState } = React;
+
+      const OPTIONS = {
+        theme: ["Dark", "Light", "Glass", "Minimal"],
+        spacing: ["Compact", "Comfortable", "Relaxed"],
+        radius: [8, 12, 16, 20],
+        shadow: ["None", "Soft", "Medium", "Glass"],
+        speed: ["Fast", "Normal", "Slow"],
+        motion: ["Minimal", "Smooth", "Expressive"],
+        glass: ["OFF", "Weak", "Medium", "Strong"],
+        typography: ["Inter", "Geist", "SF", "Playfair"],
+      };
+
+      const INITIAL = {
+        theme: "Glass",
+        spacing: "Comfortable",
+        radius: 16,
+        shadow: "Glass",
+        speed: "Normal",
+        motion: "Smooth",
+        glass: "Medium",
+        typography: "Inter",
+      };
+
+      function applyTokens(tokens) {
+        document.body.className = "";
+        if (tokens.theme === "Light") document.body.classList.add("light");
+        if (tokens.theme === "Minimal") document.body.classList.add("minimal");
+        if (tokens.theme === "Glass") document.body.classList.add("glass");
+
+        const spacingMap = { Compact: 16, Comfortable: 24, Relaxed: 34 };
+        const shadowMap = {
+          None: "none",
+          Soft: "0 14px 42px rgba(0,0,0,.18)",
+          Medium: "0 22px 70px rgba(0,0,0,.25)",
+          Glass: "0 28px 96px rgba(0,0,0,.34)",
+        };
+        const speedMap = { Fast: "140ms", Normal: "220ms", Slow: "320ms" };
+        const glassMap = { OFF: "0px", Weak: "10px", Medium: "18px", Strong: "28px" };
+        const fontMap = {
+          Inter: "Inter, ui-sans-serif, system-ui, -apple-system, sans-serif",
+          Geist: "Geist, Inter, ui-sans-serif, system-ui, sans-serif",
+          SF: "-apple-system, BlinkMacSystemFont, SF Pro Display, Inter, sans-serif",
+          Playfair: "Playfair Display, Georgia, serif",
+        };
+
+        const target = document.body;
+        target.style.setProperty("--radius", `${tokens.radius}px`);
+        target.style.setProperty("--space", `${spacingMap[tokens.spacing]}px`);
+        target.style.setProperty("--shadow", shadowMap[tokens.shadow]);
+        target.style.setProperty("--motion", speedMap[tokens.speed]);
+        target.style.setProperty("--glass-blur", glassMap[tokens.glass]);
+        target.style.setProperty("--font", fontMap[tokens.typography]);
+      }
+
+      function Control({ label, value, values, onChange, wide }) {
+        return (
+          <div className="control-group">
+            <div className="control-title">
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+            <div className={`segmented ${wide ? "wide" : ""}`}>
+              {values.map((item) => (
+                <button
+                  key={item}
+                  className={`option ${item === value ? "active" : ""}`}
+                  onClick={() => onChange(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      function ComponentPreview() {
+        return (
+          <section className="section">
+            <div className="section-head">
+              <div>
+                <h2>Components</h2>
+                <p className="sub">Button / Card / Dialog / Mission / Approval / Notification / Input / Table / Widget</p>
+              </div>
+              <span className="pill">Decision Preview</span>
+            </div>
+            <div className="grid">
+              {[
+                ["●", "Button", "押した感覚、角丸、余白、影を確認する。"],
+                ["▣", "Card", "情報のまとまり、余白、主役情報の見え方を見る。"],
+                ["✓", "Approval", "承認、修正、保留、却下が迷わず押せるか見る。"],
+                ["!", "Notification", "重要な状態変化だけが自然に目に入るか見る。"],
+              ].map(([icon, title, body]) => (
+                <article className="card" key={title}>
+                  <div className="icon">{icon}</div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function ArtifactPreview() {
+        return (
+          <section className="section">
+            <div className="section-head">
+              <div>
+                <h2>Artifact Preview</h2>
+                <p className="sub">同じTokenが成果物ごとにどう見えるか確認する。</p>
+              </div>
+            </div>
+            <div className="artifact-grid">
+              <article className="artifact">
+                <h3>LINE Mission</h3>
+                <p>短い文と余白で、Human Agentが止まらず動けるか。</p>
+                <div className="line-preview">
+                  <div className="bubble">AI Agentから調査依頼です。</div>
+                  <div className="bubble">今日お願いしたいのは、PCまわりの写真だけです。</div>
+                  <div className="bubble">分からなければ写真だけでOKです。</div>
+                </div>
+              </article>
+
+              <article className="artifact">
+                <h3>Human Agent Mission</h3>
+                <p>現場で迷わず進めるMission Sheet。</p>
+                <div className="mission-list">
+                  <div className="check"><span className="box">✓</span> PC裏全体を撮る</div>
+                  <div className="check"><span className="box">✓</span> キーボード全体を撮る</div>
+                  <div className="check"><span className="box"></span> 料金表を撮る</div>
+                  <div className="check"><span className="box"></span> 配線は抜かない</div>
+                </div>
+              </article>
+
+              <article className="artifact">
+                <h3>Dashboard</h3>
+                <p>数字が主役になるか。異常だけが自然に目に入るか。</p>
+                <table className="table">
+                  <tbody>
+                    <tr><td>未確認</td><td>12</td></tr>
+                    <tr><td>承認待ち</td><td>4</td></tr>
+                    <tr><td>要確認</td><td style={{ color: "var(--warning)" }}>2</td></tr>
+                    <tr><td>完了</td><td style={{ color: "var(--accent)" }}>18</td></tr>
+                  </tbody>
+                </table>
+              </article>
+            </div>
+          </section>
+        );
+      }
+
+      function CompareMode() {
+        const cards = [
+          ["A案", "Sharp", "radius 8 / compact / shadow none", "硬く速い。業務ツール寄り。"],
+          ["B案", "Balanced", "radius 12 / comfortable / soft", "現時点の本命。読みやすく迷いにくい。"],
+          ["C案", "Soft Glass", "radius 16 / relaxed / glass", "気持ちよいが、少し柔らかい可能性。"],
+        ];
+
+        return (
+          <section className="section">
+            <div className="section-head">
+              <div>
+                <h2>Compare Mode</h2>
+                <p className="sub">AIが案を出し、Humanは選ぶだけ。</p>
+              </div>
+              <span className="pill">A / B / C</span>
+            </div>
+            <div className="compare">
+              {cards.map(([label, title, spec, body]) => (
+                <article className="compare-card" key={label}>
+                  <div className="pill">{label}</div>
+                  <h3>{title}</h3>
+                  <p>{spec}</p>
+                  <p>{body}</p>
+                  <div className="approve-row">
+                    <button className="mini-button ok">承認</button>
+                    <button className="mini-button">修正</button>
+                    <button className="mini-button">保留</button>
+                    <button className="mini-button">却下</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function App() {
+        const [tokens, setTokens] = useState(INITIAL);
+
+        useEffect(() => {
+          applyTokens(tokens);
+        }, [tokens]);
+
+        const tokenJson = useMemo(() => JSON.stringify({
+          status: "candidate",
+          source: "Design Playground",
+          tokens,
+          note: "This is not canonical yet. Approve before promoting to Design System.",
+        }, null, 2), [tokens]);
+
+        const update = (key) => (value) => setTokens((current) => ({ ...current, [key]: value }));
+
+        return (
+          <div className="app">
+            <aside className="sidebar">
+              <div className="brand">
+                <div className="logo">DP</div>
+                <div>
+                  <h1>Design Playground</h1>
+                  <p className="sub">Design Decision Platform</p>
+                </div>
+              </div>
+
+              <Control label="Theme" value={tokens.theme} values={OPTIONS.theme} onChange={update("theme")} wide />
+              <Control label="Spacing" value={tokens.spacing} values={OPTIONS.spacing} onChange={update("spacing")} />
+              <Control label="Corner Radius" value={tokens.radius} values={OPTIONS.radius} onChange={update("radius")} wide />
+              <Control label="Shadow" value={tokens.shadow} values={OPTIONS.shadow} onChange={update("shadow")} wide />
+              <Control label="Animation Speed" value={tokens.speed} values={OPTIONS.speed} onChange={update("speed")} />
+              <Control label="Animation Style" value={tokens.motion} values={OPTIONS.motion} onChange={update("motion")} />
+              <Control label="Glass Effect" value={tokens.glass} values={OPTIONS.glass} onChange={update("glass")} wide />
+              <Control label="Typography" value={tokens.typography} values={OPTIONS.typography} onChange={update("typography")} wide />
+            </aside>
+
+            <main className="main">
+              <section className="hero">
+                <div className="panel">
+                  <div className="eyebrow">Experience First</div>
+                  <h2 className="display">Designを決める場所。</h2>
+                  <p className="lead">
+                    このPlaygroundは、文章でDesignを読むためではなく、実物を見て、触って、承認するための場所です。
+                    承認されたTokenは、将来すべてのArtifactへ反映されます。
+                  </p>
+                  <div className="actions">
+                    <button className="primary">この方向を承認</button>
+                    <button className="secondary">A/B/Cを比較</button>
+                    <button className="secondary">Token候補を見る</button>
+                  </div>
+                </div>
+
+                <div className="panel decision">
+                  <div>
+                    <div className="eyebrow">Mobile Approval</div>
+                    <div className="big-number">4</div>
+                    <p className="sub">承認待ちの重要Action</p>
+                  </div>
+                  <div className="status-row">
+                    <span>Human Agent Mission</span>
+                    <span className="pill">Ready</span>
+                  </div>
+                  <div className="status-row">
+                    <span>料金表Evidence</span>
+                    <span style={{ color: "var(--warning)" }}>Need Review</span>
+                  </div>
+                  <div className="approve-row">
+                    <button className="mini-button ok">OK</button>
+                    <button className="mini-button">修正</button>
+                    <button className="mini-button">保留</button>
+                    <button className="mini-button">却下</button>
+                  </div>
+                </div>
+              </section>
+
+              <ComponentPreview />
+              <ArtifactPreview />
+              <CompareMode />
+
+              <section className="section">
+                <div className="section-head">
+                  <div>
+                    <h2>Token Candidate</h2>
+                    <p className="sub">これは正本ではなく、承認前の候補です。</p>
+                  </div>
+                </div>
+                <pre className="token-output">{tokenJson}</pre>
+              </section>
+            </main>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
