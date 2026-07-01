@@ -456,10 +456,10 @@ Evidence Set Value = Understanding Gain ÷ Human Cost
 
 ### Future Candidate: Human Agent Cognitive Flow
 目的:
-Human Agentが自然に行動できる文章やLINEテンプレートを作ることではなく、Human Agentはどの順番で情報を受け取ると最も自然に動けるかを研究する。
+Human Agentが自然に行動できる文章やLINEテンプレートを作ることではなく、Human Agentはどの順番、どの粒度、どの余白、どの安心文で情報を受け取ると最も自然に動けるかを研究する。
 
 現在の発見:
-良かったのは文章そのものではなく、情報の並ぶ順番である可能性がある。
+良かったのは文章そのものではなく、情報の並ぶ順番と、Human Agentが止まりそうな場所に入っている安心文である可能性がある。
 
 例:
 
@@ -476,11 +476,15 @@ JOY Flow Mission
 ↓
 チェックリスト
 ↓
-心理的ハードルを下げる一文
+写真はきれいじゃなくてOK
+↓
+分からなければ写真だけでOK
 ↓
 禁止事項
 ↓
-写真を送る
+こちらで完了
+↓
+このLINEに写真を送る
 ```
 
 仮説:
@@ -504,19 +508,49 @@ Meaning
 Action
 何をする
 ↓
-Barrier Reduction
-止まりそうな理由を一文で下げる
+Execution List
+実際にやるチェック項目
 ↓
-Risk
+Barrier Reduction
+行動前に止まりそうな理由を一文で下げる
+行動中に止まりそうな理由を一文で下げる
+↓
+Risk Control
 やってはいけないこと
 ↓
 Completion
 何をすれば終わりか
+↓
+Return Path
+どこへ返せばよいか
 ```
 
 重要:
 保存したいのは「写真はきれいじゃなくてOK」という文章ではない。
 保存したいのは、MissionごとにHuman Agentが止まりそうな理由をAI Agentが推定し、最小の一文で心理的摩擦を減らす処理である。
+
+追加仮説:
+Barrier Reductionは1回だけでは足りない場合がある。
+Human Agentが止まる場所が複数あるなら、停止ポイントごとに安心文を複数回配置する必要があるかもしれない。
+
+```md
+Barrier Prediction
+Human Agentがどこで止まりそうかを予測する
+↓
+Barrier Reduction
+その摩擦を最小の言葉で下げる
+↓
+Repeated Reassurance
+必要な場合は、停止ポイントごとに安心文を複数回配置する
+```
+
+Repeated Reassuranceの例:
+
+| 位置 | 想定Barrier | Reassurance |
+|---|---|---|
+| 行動前 | きれいに撮れないとダメだと思う | 写真はきれいじゃなくてOK |
+| 行動中 | 分からない機器で止まる | 分からなければ写真だけでOK |
+| 完了前 | 足りないものがあるか不安 | 足りないものはAI Agentがあとで教えます |
 
 認知Chunk候補:
 - 余白
@@ -524,6 +558,8 @@ Completion
 - 区切り線
 - アイコン
 - 文章の短さ
+- 矢印
+- チェックボックス
 
 これらは単なるデザインではなく、Human Agentの認知負荷を下げるために、意味の塊を分ける処理かもしれない。
 
@@ -533,6 +569,8 @@ Completion
 - [ ] 経理
 - [ ] メール返信
 - [ ] 清掃
+- [ ] 看板調査
+- [ ] AI Workspace OS
 
 検証観点:
 - Human Agentが最初の一歩を踏み出しやすいか
@@ -540,6 +578,8 @@ Completion
 - Mission完了率が上がるか
 - 読み返しが減るか
 - 余白、区切り、アイコンが理解を助けているか
+- Repeated Reassuranceが重複ではなく停止ポイントごとの摩擦低減として機能するか
+- Return Pathが明確だと提出率が上がるか
 
 昇格条件:
 3〜5分野で、Cognitive Flowの順番とChunk設計によりHuman Agentの行動開始率、完了率、継続率が改善すること。
@@ -557,8 +597,10 @@ JOY固有:
 Human Agent全般に使える可能性がある上流原理:
 - Human Agentが止まる心理的摩擦を先に推定する
 - 摩擦を最小の一文で下げる
+- 停止ポイントごとに安心文を複数回配置する
 - Human Agentが自然に動ける情報順序を設計する
 - 意味の塊（Chunk）で認知負荷を下げる
+- Return Pathを明確にして提出までつなげる
 - Evidence単体ではなくEvidence SetでMission Valueを評価する
 - Human Costを増やさずUnderstanding Gainを増やす
 - 次のMissionはAI理解度とGap Analysisから作る
@@ -567,6 +609,8 @@ Human Agent全般に使える可能性がある上流原理:
 - 現時点ではJOYのLINE文レビューから出た仮説であり、他分野でのEvidenceがない
 - Human Agentごとの性格、IT理解度、現場経験によって最適な順番が変わる可能性がある
 - 行動開始率や完了率を実測しないと、文章の印象だけで判断してしまう可能性がある
+- Repeated Reassuranceは、入れすぎると冗長に見える可能性がある
+- 安心文が多すぎると、逆に重要なActionやRisk Controlが埋もれる可能性がある
 
 自己レビュー:
 - Layer Leak: なし。JOY Project内のFuture Candidateとして保存している。
