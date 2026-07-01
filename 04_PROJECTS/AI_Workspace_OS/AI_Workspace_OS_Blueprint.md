@@ -1175,6 +1175,238 @@ Execution:
 - 改善案: すぐにKernelへ入れず、HOTEL JOY、投資、人体、AI Workspace OSで「Realityを先に置くと設計精度が上がるか」を検証する。
 - Kernel混入: なし。まだ実績不足のためKernelへ入れない。
 
+### Execution OS（Future Candidate）
+目的:
+MrBrainが判断、設計するだけでなく、LINE送信、ホテル管理、API、ブラウザ操作、DB更新、アプリ操作など、外部世界に影響を与えるための実行レイヤーを設計する。
+
+Status:
+Future Candidate
+
+目指す状態:
+ユーザーはスマホから重要な指示と承認だけ行う。
+
+AI Workspace OSは、必要なAI、人、ツール、コード、APIを次の流れで組み立てる。
+
+```md
+Goal
+↓
+Reality Model
+↓
+Capability Registry
+↓
+Session Manager
+↓
+Workspace Router
+↓
+Agent Role Map
+↓
+Execution Component
+↓
+Approval
+↓
+Reality Change
+↓
+Learning
+```
+
+Execution OSとは:
+Capabilityを現実に実行するためのレイヤーである。
+
+```md
+Capability:
+何ができるか
+
+Execution Component:
+そのCapabilityをどう実行するか
+```
+
+例:
+
+```md
+Capability:
+LINE送信
+
+Execution Component候補:
+- LINE公式API
+- 自社アプリ通知
+- Human AgentがLINE送信
+- 将来の端末操作 / ブラウザ操作
+```
+
+```md
+Capability:
+ホテル料金管理
+
+Execution Component候補:
+- 自社DB
+- 管理画面
+- CSV取り込み
+- 既存PC読取
+- Human Agent入力
+- 将来のAPI連携
+```
+
+```md
+Capability:
+Booking返信
+
+Execution Component候補:
+- メール返信
+- Booking管理画面
+- Pulseアプリ
+- ブラウザ操作
+- Human承認付き送信
+```
+
+実行レベル:
+完全自動化へ急がない。
+次の順で検討する。
+
+Level 1:
+Human Agentが実行。
+
+Level 2:
+AIが下書き、Humanが送信。
+
+Level 3:
+AIが下書き、自社アプリでHuman承認。
+
+Level 4:
+APIで半自動実行。
+
+Level 5:
+ブラウザ操作で半自動実行。
+
+Level 6:
+条件付き完全自動。
+
+重要:
+税務、売上、契約、個人情報、外部送信、金銭が絡むものは必ずApproval Flowを入れる。
+
+Approval Flow:
+Execution OSでは、外部に影響を与える前に承認ポイントを定義する。
+
+承認が必要な例:
+- LINE送信
+- メール送信
+- Booking返信
+- 料金変更
+- 売上確定
+- 経理データ更新
+- Git reset
+- 外部API実行
+- ブラウザ操作で投稿、送信、購入、変更を行う場合
+
+承認UIの将来像:
+
+```md
+[承認]
+[修正]
+[保留]
+[却下]
+```
+
+Browser Automationの位置づけ:
+Browser AutomationはCapabilityではない。
+Capabilityを実現するためのExecution Componentである。
+
+使う順番:
+- APIがあるならAPIを優先する。
+- APIがない場合、Human承認付きのブラウザ操作を検討する。
+- ログイン、2段階認証、CAPTCHA、規約、サイト変更、個人情報には注意する。
+
+アプリ化の方向:
+将来的には、Human Agent / Userはアプリ上でMissionとApprovalを見る。
+
+主な画面:
+- Command Center
+- Approval Inbox
+- Mission Inbox
+- Capability Registry
+- Session一覧
+- Execution Log
+- Learning Log
+
+最初に作るなら:
+Approval Inbox、またはMission Inbox。
+
+理由:
+ユーザーはスマホで承認だけしたいから。
+
+HOTEL JOYでの適用例:
+
+Goal:
+HOTEL JOYの料金、信号、売上システムを再構築する。
+
+必要Capability:
+- Signal Understanding
+- Pricing Rule Extraction
+- State Modeling
+- Human Mission Generation
+- Evidence Analysis
+- DB Design
+- UI Design
+- Approval
+- Learning
+
+Execution Component:
+- Human Agent撮影
+- LINE送信
+- Google Drive保存
+- AI解析
+- Codex整理
+- 自社DB
+- 将来の既存PC読取
+- 将来のAPI / ブラウザ操作
+
+Approval:
+- 現場操作前
+- 写真共有前
+- 自社OSで料金計算を採用する前
+- 既存システムへ影響する前
+
+メルカリでの適用例:
+
+Goal:
+商品を売り切る。
+
+必要Capability:
+- 相場調査
+- 価格設定
+- 商品説明生成
+- 写真整理
+- 出品下書き
+- コメント返信
+- 値下げ提案
+- 在庫管理
+- 発送管理
+- Learning
+
+Execution Component:
+- Human Agent写真撮影
+- AI説明文生成
+- Spreadsheet / DB管理
+- Human承認
+- 将来API
+- 将来ブラウザ操作
+
+Approval:
+- 出品前
+- 価格変更前
+- コメント返信前
+- 発送前
+
+自己レビュー:
+- Layer Leak: なし。AI Workspace OS Project内のFuture Candidateとして保存する。
+- Capability Registryとの責務: Capability Registryは「何ができるか」を管理する。Execution OSは「どう現実へ実行するか」を管理する。責務は分離できている。
+- Session Managerとの関係: 自然。Session ManagerはGoal単位の作業空間を管理し、Execution OSはそのSession内で現実変更を担当する候補である。
+- Workspace Routerとの重複: なし。Workspace Routerは作業場所選定であり、Execution OSは外部世界へ影響を与える実行レイヤーである。
+- Goal-to-System Blueprintとの整合性: ある。Execution Plan、Approval Flow、Learning Loopの実行側を補強する候補である。
+- Browser Automationの扱い: 過大評価しない。API、Human承認、半自動を先に検討し、Browser AutomationはExecution Componentの一つとして扱う。
+- Approval Flow: 外部送信、金銭、個人情報、契約、税務、既存システム影響には承認を必須とする。
+- Kernel混入: なし。まだ実績不足のためKernel / Principle / AI_CONTEXT / AGENTSへ入れない。
+- 概念増加: 注意が必要。Reality Model、Capability Registry、Session Managerとの関係を保ったまま、Future CandidateとしてEvidenceを集める。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
