@@ -458,6 +458,158 @@ Promotion Rule:
 現時点ではUniversal Event Model自体は修正しない。
 Kernel、Principle、AI_CONTEXTには反映しない。
 
+### Goal-to-System Blueprint（Future Candidate）
+目的:
+ユーザーのGoalから、必要なCapability、Human Agent、AI Agent、Workspace、Artifact、Execution、Approval、Learning Loopまでを一気通貫で設計するための共通Blueprint候補。
+
+Status:
+Future Candidate
+
+Evidence:
+
+| 分野 | 状態 |
+|---|---|
+| HOTEL JOY | ⬜ |
+| メルカリ出品 | ✅ 仮説例 |
+| Booking返信 | ⬜ |
+| 経理 | ⬜ |
+| 投資 | ⬜ |
+| 人体ログ | ⬜ |
+| AI Workspace OS | ⬜ |
+
+Confidence:
+30%
+
+現在の仮説:
+どんなGoalでも、以下の順番で分解すると、抜け漏れなくシステム化できる可能性がある。
+
+```md
+Goal
+↓
+Outcome
+↓
+Capability Map
+↓
+Agent Role Map
+↓
+Workspace Map
+↓
+Artifact Map
+↓
+Execution Plan
+↓
+Approval Flow
+↓
+Learning Loop
+```
+
+説明:
+
+| 要素 | 意味 |
+|---|---|
+| Goal | 何を達成したいか |
+| Outcome | 何が変われば成功か |
+| Capability Map | 必要な能力 |
+| Agent Role Map | Human Agent / AI Agent / Automation Agent の役割分担 |
+| Workspace Map | ChatGPT / Codex / Cursor / NotebookLM / Git / Drive / DB / Browser Automationなど、どこで実行するか |
+| Artifact Map | 生成すべき成果物 |
+| Execution Plan | 実行順序 |
+| Approval Flow | どこで人間承認を挟むか |
+| Learning Loop | 実行結果をどう保存、改善するか |
+
+Browser Automationの位置づけ:
+ブラウザ自動操作はExecution Componentの一つである。
+
+最初から完全自動化に行かない。
+
+```md
+Human承認付き
+↓
+半自動
+↓
+APIがあればAPI
+↓
+ブラウザ自動操作
+↓
+完全自動
+```
+
+メルカリ例:
+
+```md
+Goal:
+商品を売り切る
+
+Capability:
+- 相場調査
+- 価格設定
+- 文章生成
+- 写真整理
+- 出品
+- コメント返信
+- 在庫管理
+- 値下げ
+- 発送管理
+
+Human Agent:
+- 写真撮影
+- 商品状態確認
+- 最終承認
+- 発送
+
+AI Agent:
+- 相場調査
+- 説明文作成
+- 価格提案
+- 返信案
+- 値下げ提案
+
+Automation Agent:
+- 出品下書き作成
+- 在庫表更新
+- 通知
+- 可能ならブラウザ入力補助
+
+Approval:
+- 出品前
+- 価格変更前
+- 返信前
+- 発送前
+
+Learning:
+- 売れた価格
+- 閲覧数
+- いいね数
+- 質問内容
+- 値下げ履歴
+- 次回改善
+```
+
+検証対象:
+
+- [ ] HOTEL JOY
+- [ ] メルカリ出品
+- [ ] Booking返信
+- [ ] 経理
+- [ ] 投資
+- [ ] 人体ログ
+- [ ] AI Workspace OS
+
+Promotion Rule:
+3〜5分野で、Goalからシステム化までの抜け漏れが減るならPrinciple Candidateとして検討する。
+
+既存構造との関係:
+- Workspace Routerは、どのWorkspaceで作業するかを選ぶ。
+- Mission Valueは、Human Agent Missionの価値を評価する。
+- Human Agent Cognitive Flowは、Human Agentが自然に動ける受け取り順を設計する。
+- Goal-to-System Blueprintは、Goalから必要な能力、役割、場所、成果物、実行、承認、学習までを一気通貫で並べる。
+
+自己レビュー:
+- Layer Leak: なし。AI Workspace OS Project内のFuture Candidateとして保存する。
+- Kernel混入: なし。まだ複数分野で検証されていない。
+- 概念増加: 注意が必要。独立Engine化せず、Future CandidateとしてEvidenceで育てる。
+- 既存構造との重複: Workspace Router、Mission Value、Human Agent Cognitive Flowと接続するが、現時点では上位実装にしない。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
