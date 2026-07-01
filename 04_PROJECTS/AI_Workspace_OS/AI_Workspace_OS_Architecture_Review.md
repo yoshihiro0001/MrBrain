@@ -489,6 +489,140 @@ Layer Leak:
 次の検証:
 HOTEL JOYのHuman Agent Mission、LINE文、A4指示書、Blueprint、実装仕様書のどれが最適成果物になるかを1案件で検証する。
 
+## Goal Validation Gate Discussion
+
+今回の気付き:
+HumanはGoalを話しているようで、実際にはIntent、つまり「やりたいこと、願望、違和感」を話している可能性が高い。
+
+そのため、IntentをそのままExecutionへ流すと危険である。
+
+AI Workspace OSはExecutionへ進む前に、「このGoalは本当に適切か」を確認する必要がある。
+
+これは新しいEngineではない。
+CapabilityでもExecutionでもない。
+Architecture全体の安全装置としてのGateである。
+
+仮説:
+
+```md
+Human
+↓
+Intent
+↓
+Goal Validation Gate
+↓
+Goal
+↓
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Learning
+```
+
+### Goal Validation Gateの役割
+
+Goalを作ることではない。
+
+Intentから、本当に進むべきGoalを確認することである。
+
+Userの言葉をそのまま実行指示に変換せず、Executionへ流す前にGoalの妥当性を確認する。
+
+### 最小確認項目
+
+現時点では、次の5項目で十分と考える。
+
+| 項目 | 確認すること |
+|---|---|
+| Goalは明確か | 何を達成したいかが1文で言えるか |
+| Success Conditionは測定できるか | 何が分かれば、または何が変われば成功か |
+| Scopeは適切か | 大きすぎないか、今やる範囲に切れているか |
+| Humanが本当に望んでいる状態か | 表面的な依頼ではなく、奥のIntentと合っているか |
+| Realityと矛盾していないか | 現実の制約、情報不足、安全性と矛盾していないか |
+
+この5項目は、現時点ではGateとして十分に軽い。
+増やしすぎるとKernelやOperationが重くなるため、実運用で不足が出るまで増やさない。
+
+### HOTEL JOYでの例
+
+Intent:
+
+```md
+ホテルを全部自動化したい
+```
+
+Goal Validation:
+
+```md
+今回のGoalは何か？
+
+□ 信号理解
+□ 料金ルール理解
+□ スタッフ管理
+□ 予約管理
+□ 全体OS化
+```
+
+Goalを確認してからRepresentative Evidenceを選ぶ。
+
+202号室はGoalではない。
+202号室は、Goalに対して選ばれるRepresentative Evidenceの一例である。
+
+### メルカリでの例
+
+Intent:
+
+```md
+メルカリを自動化したい
+```
+
+Goal Validation:
+
+```md
+目的は何か？
+
+- 利益最大化
+- 販売数最大化
+- 時間削減
+- 在庫整理
+```
+
+Goalによって、DecisionとExecutionが変わる。
+
+### 現在のArchitectureと矛盾するか
+
+矛盾しない。
+
+むしろ、Final Visionの「Humanはやりたいことだけ話す」を安全に実現するために必要なGateである。
+
+現在のArchitectureでは`Goal`から始まっていたが、実運用ではその前に`Intent`があると見る方が自然。
+
+ただし、これは新しいFuture Candidateへ昇格しない。
+Architecture Review内のDiscussionとして、IntentをExecutionへ直接流さないための安全装置として扱う。
+
+### Goal Validation Gate自己レビュー
+
+新しいEngine:
+なし。Goalを生成するEngineではなく、Execution前の安全Gateとして整理した。
+
+Layer Leak:
+なし。Architecture Review内のDiscussionであり、Kernel / Principle / AI_CONTEXT / AGENTSには入れていない。
+
+Architecture Ruleとしての自然さ:
+ある。IntentからGoalへ進む前に、ScopeとSuccess Conditionを確認することは、Executionの安全性と成果物品質に直結する。
+
+IntentとGoalの責務:
+明確。IntentはHumanの願望、違和感、方向性。GoalはOSが実行可能な形へ確認した目的。
+
+Executionへ直接流さない安全装置:
+妥当。特に外部送信、金銭、契約、税務、個人情報、既存システム影響がある場合は必須。
+
 ## Evolution Rule（Architecture Rule）
 
 今後は、Future Candidateを増やすことよりも、既存構造で説明できるかを優先する。
