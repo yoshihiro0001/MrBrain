@@ -805,6 +805,173 @@ HOTEL_OS
 - Project管理との分離: ProjectはMrBrain内の正本。SessionはChatGPT / Codex / Cursorなどで動く一時作業場。
 - Kernel混入: なし。まだ実績不足のためKernelへ入れない。
 
+### Capability Registry（Future Candidate）
+目的:
+MrBrainが「API」「ブラウザ操作」「LINE送信」などの実装方法ではなく、「何ができるか（Capability）」を管理するOSへ進化できるかを検証する。
+
+Status:
+Future Candidate
+
+今回の発見:
+これまでは次の順で考えていた。
+
+```md
+Goal
+↓
+Workspace
+↓
+Agent
+↓
+Execution
+```
+
+しかし、Executionのさらに上位概念としてCapabilityが存在する可能性がある。
+
+Capabilityとは:
+実装方法ではなく、実現できる能力である。
+
+```md
+Capability
+↓
+Implementation
+```
+
+MrBrainはまずCapabilityを管理し、Implementationは後から差し替えられるようにする。
+
+例:
+
+```md
+Capability:
+LINE送信
+
+Implementation候補:
+- LINE API
+- Browser Automation
+- Human Agent
+```
+
+```md
+Capability:
+ホテル料金更新
+
+Implementation候補:
+- ホテルAPI
+- ブラウザ操作
+- Human Agent入力
+- 将来のHotel OS API
+```
+
+```md
+Capability:
+画像解析
+
+Implementation候補:
+- OpenAI
+- Gemini
+- 将来のVision API
+```
+
+Goalとの関係:
+
+```md
+Goal
+↓
+Capability選択
+↓
+Session生成
+↓
+Workspace選択
+↓
+Agent役割分担
+↓
+Execution
+↓
+Reality Change
+↓
+Learning
+```
+
+Capability Registry案:
+
+Communication:
+- LINE送信
+- メール送信
+- 通知
+
+Storage:
+- Git保存
+- Google Drive保存
+- MrBrain保存
+
+Analysis:
+- OCR
+- 画像解析
+- 音声認識
+- 要約
+- 検索
+
+Automation:
+- ブラウザ操作
+- API実行
+- データ同期
+
+Business:
+- ホテル料金更新
+- Booking返信
+- メルカリ出品
+- 経理入力
+
+Human:
+- Human Mission生成
+- 承認要求
+- 写真依頼
+
+AI:
+- Thinking
+- Planning
+- Review
+- Gap Analysis
+- Mission生成
+
+将来の理想:
+Human AgentはGoalだけ入力する。
+
+例:
+
+```md
+HOTEL JOYの料金システムを完成させたい
+```
+
+MrBrainは必要Capability、必要Workspace、必要Agent、Execution、承認まで組み立てる。
+Human Agentは重要な判断と承認だけ行う。
+
+Browser Automationの位置づけ:
+Browser AutomationはCapabilityではない。
+Capabilityを実現するためのExecution Componentであり、Implementation候補の一つである。
+
+検証対象:
+
+- [ ] HOTEL JOY
+- [ ] メルカリ
+- [ ] Booking
+- [ ] 投資
+- [ ] 経理
+- [ ] Human Agent
+- [ ] AI Workspace OS
+- [ ] 将来の外部API連携
+
+昇格条件:
+3〜5分野以上でCapabilityとImplementationの分離が自然に成立するなら、AI Workspace OSのCore Candidateとしてレビューする。
+
+自己レビュー:
+- Layer Leak: なし。AI Workspace OS Project内のFuture Candidateとして保存する。
+- Workspace Routerとの重複: Workspace Routerは作業場所を選ぶ。Capability Registryは実現すべき能力を管理するため、責務は異なる。
+- Goal-to-System Blueprintとの関係: 自然。Goal-to-System Blueprint内のCapability Mapを具体的に管理する候補である。
+- Session Managerとの関係: 自然。Session ManagerはGoal単位の作業空間を管理し、Capability RegistryはSession内で必要な能力を選ぶ候補である。
+- Execution Layerとの分離: Browser AutomationやAPIはExecution Componentであり、Capabilityそのものではない。
+- 概念増加: 注意が必要。現時点ではCore化せず、Future CandidateとしてEvidenceを集める。
+- Kernel混入: なし。まだ実績不足のためKernelへ入れない。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
