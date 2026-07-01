@@ -623,6 +623,231 @@ IntentとGoalの責務:
 Executionへ直接流さない安全装置:
 妥当。特に外部送信、金銭、契約、税務、個人情報、既存システム影響がある場合は必須。
 
+## Implementation Discovery Discussion
+
+今回の気付き:
+Capabilityが決まっても、Execution Componentは複数存在する。
+
+例:
+
+```md
+Capability:
+Booking返信
+
+Implementation候補:
+- 公式API
+- 非公式API
+- Webhook
+- Browser Automation
+- Playwright
+- MCP
+- Human Agent
+- RPA
+```
+
+そのため、Executionを決める前に、実現方法を探索する役割が必要になる可能性がある。
+
+ただし、これは現時点で新しいFuture Candidateにはしない。
+Architecture Review内のDiscussionとして扱う。
+
+### 仮説
+
+```md
+Goal
+↓
+Reality
+↓
+Capability
+↓
+Implementation Discovery
+↓
+Decision
+↓
+Execution
+```
+
+Implementation Discoveryの役割:
+Executionを決めることではない。
+
+Execution候補を調査、比較し、最適な選択肢をDecisionへ渡すことである。
+
+### Discovery対象
+
+- 公式API
+- 非公式API
+- Webhook
+- Browser Automation
+- Playwright
+- MCP
+- スクレイピング
+- Google Apps Script
+- CLI
+- SDK
+- ライブラリ
+- 既存システム連携
+- Human Agent
+
+### HOTEL JOYでの例
+
+Goal:
+
+```md
+ホテルを自動化したい
+```
+
+Capability:
+
+```md
+Booking返信
+```
+
+Implementation Discovery:
+
+```md
+Booking.com公式APIはあるか
+↓
+LINE通知できるか
+↓
+Playwrightで操作できるか
+↓
+Human承認が必要か
+```
+
+Decision:
+
+```md
+現時点ではHuman承認付き返信案生成から始める
+```
+
+Execution:
+
+```md
+Humanが承認して送信
+```
+
+### メルカリでの例
+
+Goal:
+
+```md
+メルカリ出品自動化
+```
+
+Implementation Discovery:
+
+```md
+公式API
+↓
+無い
+↓
+Playwright
+↓
+Browser Automation
+↓
+Human承認
+```
+
+Decision:
+
+```md
+最初はAIが下書き、Humanが承認して手動出品
+```
+
+Execution:
+
+```md
+Human Agentが出品
+```
+
+### Realityとの関係
+
+Reality:
+現実はどうなっているかを理解する。
+
+Implementation Discovery:
+その現実で何が利用できるかを調べる。
+
+例:
+- Reality: Booking.comの管理画面やPulseアプリが存在する。
+- Implementation Discovery: API、Webhook、Browser Automation、Human操作のどれが実際に使えるかを調べる。
+
+### Responsibility Review
+
+| Layer | 責務 |
+|---|---|
+| Reality | 現実で何が起きているか |
+| Capability | 何ができればGoalへ近づくか |
+| Implementation Discovery | Capabilityを実現する候補を調査、比較する |
+| Decision | 調査結果を踏まえ、今回は何を選ぶか決める |
+| Execution | 選ばれた方法で現実へ影響を与える |
+
+### どこに置くのが自然か
+
+現時点では、Implementation Discoveryは独立Layerではなく、Execution OS内のDiscovery処理として扱うのが最も軽い。
+
+理由:
+- Execution Component候補を探す処理であり、Execution OSの前処理として自然。
+- Decisionは候補調査そのものではなく、候補から今回の一手を選ぶ役割に集中できる。
+- Capability Registryは「何ができるか」を管理し、Implementation Discoveryは「それを何で実現できるか」を調べるため、責務が分離できる。
+
+提案する位置:
+
+```md
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Execution OS
+  └ Implementation Discovery
+↓
+Decision
+↓
+Approval
+↓
+Execution
+↓
+Learning
+```
+
+### Future Candidateとして保存する価値
+
+現時点では、Future Candidateとして独立保存する価値はまだ低い。
+
+理由:
+- Execution OS内のDiscovery処理として説明できる。
+- Booking、メルカリ、HOTEL JOY以外でまだEvidenceが少ない。
+- 新しい候補を増やすより、Execution OSの責務内で検証した方が軽い。
+
+ただし、3〜5Projectで「Implementation DiscoveryがないとDecisionが不安定になる」と確認できた場合は、Execution OSの重要サブ機能として明文化する価値がある。
+
+### Implementation Discovery自己レビュー
+
+Layer Leak:
+なし。Architecture Review内のDiscussionであり、Kernel / Principle / AI_CONTEXT / AGENTSには入れていない。
+
+責務重複:
+一部あり。Execution OSと近い。ただしExecution OS内のDiscovery処理として扱えば重複は管理できる。
+
+Realityとの違い:
+Realityは現実構造。Implementation Discoveryは使える実装手段の探索。
+
+Capabilityとの違い:
+Capabilityは「何ができるか」。Implementation Discoveryは「どう実現できるかの候補を探す」。
+
+Decisionとの違い:
+Decisionは選ぶ。Implementation Discoveryは選択肢を集めて比較材料を渡す。
+
+Executionとの違い:
+Executionは現実を変える。Implementation Discoveryはまだ現実を変えない。
+
+Architectureとの整合性:
+ある。CapabilityとDecisionの間、またはExecution OS内の前処理として自然。
+
+評価:
+今はFuture Candidate化しない。Execution OS内のDiscussionとして保留する。
+
 ## Evolution Rule（Architecture Rule）
 
 今後は、Future Candidateを増やすことよりも、既存構造で説明できるかを優先する。
