@@ -642,6 +642,213 @@ Token改善
 
 この流れにより、Designは一度で決めるものではなく、ExperienceのFeedbackで進化するものとして扱える。
 
+## Design Feedback Inbox
+
+Design Feedback Inboxは、ユーザーがスマホやPCで感じたデザインの違和感を、感覚の言葉のまま受け取る入口である。
+
+これはDesign System本体ではない。
+まずDesign Playground内の設計として扱う。
+
+### 役割
+
+- ユーザーの感覚的な違和感を受け取る
+- AIが違和感を分類する
+- Design Token候補へ変換する
+- Preview改善案へ変換する
+- Codexへの修正指示文へ変換する
+- Playgroundへ反映する
+- Keep / Discard / Compareで評価する
+- Design Token Candidateを更新する
+
+### 受け取るFeedback例
+
+ユーザーは専門用語で書かなくてよい。
+
+例:
+
+- 字間が詰まっている
+- もう少し心地よく
+- 色パターンを増やしたい
+- スマホで見たい
+- 丸すぎる
+- 余白が気持ちよくない
+- アニメーションが少し邪魔
+- もっとはっきり見たい
+- もう少し高級感がほしい
+- LINEだと長く感じる
+
+重要:
+Feedbackは、正しいDesign用語ではなくHuman Tasteの生データとして扱う。
+
+### Feedback分類
+
+AIはFeedbackを次のカテゴリへ分類する。
+
+| Category | 見るもの |
+|---|---|
+| Typography | 文字、字間、行間、読みやすさ |
+| Spacing | 余白、詰まり、呼吸感 |
+| Color | 色、コントラスト、Palette |
+| Radius | 丸み、硬さ、やわらかさ |
+| Glass | 透明感、見やすさ、背景の重さ |
+| Motion | 動き、速さ、邪魔さ、気持ちよさ |
+| Interaction | 押しやすさ、反応、承認体験 |
+| Layout | 配置、視線、情報の順番 |
+| Component | Button、Card、Dialog、Tableなど |
+| Artifact | LINE、A4、Dashboard、Mailなど |
+| Mobile | スマホでの読みやすさ、押しやすさ |
+| Accessibility | 文字サイズ、コントラスト、疲れにくさ |
+
+### 変換Flow
+
+```md
+Human Feedback
+↓
+AI分類
+↓
+Design Token候補
+↓
+Preview改善案
+↓
+Codex指示文
+↓
+Playground反映
+↓
+Keep / Discard / Compare
+↓
+Design Token更新
+```
+
+### Feedback Item Template
+
+```md
+Feedback ID:
+
+Raw feedback:
+
+Target artifact:
+
+Category:
+
+Intent:
+
+Affected token:
+
+Proposed change:
+
+Priority:
+
+Status:
+
+Generated Codex instruction:
+```
+
+記入例:
+
+```md
+Feedback ID:
+DF-0001
+
+Raw feedback:
+スマホで見ると少し詰まっている。
+
+Target artifact:
+Mobile Approval
+
+Category:
+Spacing / Mobile
+
+Intent:
+承認画面を疲れにくく、押しやすくしたい。
+
+Affected token:
+spacing, button height, card padding
+
+Proposed change:
+spacingをcomfortableからrelaxedへ寄せ、Buttonの高さを少し上げる。
+
+Priority:
+High
+
+Status:
+Candidate
+
+Generated Codex instruction:
+Design Playground v2のMobile Approval Previewで、spacing relaxed案を追加し、現行案とA/B比較できるようにしてください。
+```
+
+### スマホ運用
+
+将来的には、スマホから一言でFeedbackを入れられるようにする。
+
+例:
+
+```md
+この画面、少し詰まって見える
+```
+
+AIはこれを受け取り、次へ変換する。
+
+```md
+Category:
+Spacing / Mobile / Layout
+
+Intent:
+スマホでの読みやすさと余白を改善したい
+
+Codex instruction:
+Mobile PreviewのSpacing比較を追加してください
+```
+
+将来像:
+
+```md
+Design Feedback Inbox
+↓
+AI分類
+↓
+Codex修正案
+↓
+Playground反映
+↓
+User承認
+↓
+Design Token Candidate更新
+```
+
+これはApproval Inbox / Mission Inboxと同じ思想である。
+ただし、現時点ではMarkdown設計で十分。
+
+### Playgroundとの関係
+
+| 項目 | 役割 |
+|---|---|
+| Design Playground | Designを見て、触って、比較する場所 |
+| Design Feedback Inbox | 違和感を入れる場所 |
+| Design Token Versioning | 反映結果を保存、比較、復元する場所 |
+| Design System本体 | 承認済みTokenとRuleの正本 |
+
+Design Playgroundは見る場所。
+Design Feedback Inboxは違和感を入れる場所。
+Design Token Versioningは反映結果を保存する場所。
+
+### 今は作りすぎない
+
+現時点では、`05_DESIGN_SYSTEM/Design_Feedback_Inbox.md`を新規作成しない。
+
+理由:
+- まだFeedback実績が少ない
+- Inboxとして独立させる前に、Playground内で分類と変換Flowを検証したい
+- ファイルを増やすより、まず違和感 → Codex指示化が自然に回るか確認する
+
+将来、Feedbackが増えた場合は、新規ファイル化を検討する。
+
+候補:
+
+```md
+05_DESIGN_SYSTEM/Design_Feedback_Inbox.md
+```
+
 ## v2.1自己レビュー
 
 Layer Leak:
@@ -658,3 +865,9 @@ Versioningの責務:
 
 将来拡張:
 Icon / Character / Illustrationはまだ保留。Color Palette Galleryで効果を確認してから広げる。
+
+Design Feedback Inboxとの違い:
+Playgroundは見て決める場所。Feedback Inboxは違和感を受け取る場所。Versioningは反映結果を候補として保存する場所。
+
+Design System本体へ昇格する条件:
+複数回のFeedbackが集まり、カテゴリ分類、Token変換、Codex指示化、Preview反映、Keep / Discard / Compareの流れが3〜5回自然に成立すること。

@@ -250,6 +250,123 @@ Humanの好みや違和感を、再利用可能なDesign Tokenへ変換する。
 
 このLoopが成立すると、Designは一度で確定するものではなく、触りながら育つものになる。
 
+## Phase 2.5: Design Feedback Inbox
+
+目的:
+ユーザーがスマホやPCで感じたデザインの違和感を、感覚の言葉のまま記録し、AIが整理してCodexへの修正指示へ変換できるようにする。
+
+これはDesign System本体ではない。
+まずDesign Playground内の運用設計として扱う。
+
+### 役割
+
+- Human Tasteの生データを受け取る
+- AIがカテゴリ分類する
+- Design Token候補へ変換する
+- Preview改善案を作る
+- Codex指示文へ変換する
+- Playground反映後にKeep / Discard / Compareで評価する
+- Design Token Candidateを更新する
+
+### Feedback分類
+
+- Typography
+- Spacing
+- Color
+- Radius
+- Glass
+- Motion
+- Interaction
+- Layout
+- Component
+- Artifact
+- Mobile
+- Accessibility
+
+### 変換Flow
+
+```md
+Human Feedback
+↓
+AI分類
+↓
+Design Token候補
+↓
+Preview改善案
+↓
+Codex指示文
+↓
+Playground反映
+↓
+Keep / Discard / Compare
+↓
+Design Token更新
+```
+
+### Feedback Item Template
+
+```md
+Raw feedback:
+
+Target artifact:
+
+Category:
+
+Intent:
+
+Affected token:
+
+Proposed change:
+
+Priority:
+
+Status:
+
+Generated Codex instruction:
+```
+
+### スマホ運用
+
+将来的には、スマホから一言でFeedbackを入れる。
+
+例:
+
+```md
+この画面、少し詰まって見える
+```
+
+AIが次へ変換する。
+
+```md
+Spacing / Mobile / Layout
+↓
+Design Token候補
+↓
+Codex修正指示
+```
+
+将来はApproval Inbox / Mission Inboxと同じ思想で、Design Feedback Inboxを作る。
+
+ただし、現時点ではMarkdown設計で十分。
+
+### 新規ファイル化の判断
+
+今は`05_DESIGN_SYSTEM/Design_Feedback_Inbox.md`を作らない。
+
+作る条件:
+- Feedbackが複数溜まる
+- 分類とCodex指示化が繰り返し必要になる
+- Playground / Roadmap内では長くなりすぎる
+
+### 成功条件
+
+- Humanが感覚の言葉でFeedbackできる
+- AIがカテゴリ分類できる
+- Token候補へ変換できる
+- Codex指示文が自然に出る
+- Playgroundで改善案を比較できる
+- Keep / Discard / Compareで次Versionへ進める
+
 ## Phase 3: Artifact Binding
 
 目的:
