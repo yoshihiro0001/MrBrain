@@ -666,6 +666,145 @@ Promotion Rule:
 - 概念増加: 注意が必要。独立Engine化せず、Future CandidateとしてEvidenceで育てる。
 - 既存構造との重複: Workspace Router、Mission Value、Human Agent Cognitive Flowと接続するが、現時点では上位実装にしない。
 
+### Session Manager（Future Candidate）
+目的:
+ユーザーがChatGPTやCodexなどの「チャット」を管理するのではなく、Goal単位でAIの作業Sessionを生成、管理、終了できるようにするための運用OS候補。
+
+Status:
+Future Candidate
+
+なぜ必要か:
+現在は次の流れで運用している。
+
+```md
+ユーザー
+↓
+ChatGPTで相談
+↓
+Codexで編集
+↓
+Git保存
+```
+
+しかし、本来管理したいのはチャットではなくProjectである。
+
+Chatは一時的な作業場である。
+Projectの正本はMrBrainにある。
+
+```md
+Chat = RAM
+MrBrain = SSD
+```
+
+Sessionとは:
+あるGoalを達成するためだけに存在する一時的な作業空間。
+
+例:
+
+```md
+HOTEL_OS
+Session #15
+料金システム調査
+
+AI Workspace OS
+Session #8
+Human Agent研究
+
+投資家OS
+Session #21
+JDI分析
+```
+
+Session終了後、重要な成果物だけMrBrainへ保存し、チャット自体は履歴として扱う。
+
+想定Flow:
+
+```md
+Goal
+↓
+Project
+↓
+Session生成
+↓
+Thinking
+↓
+Editing
+↓
+Coding
+↓
+Storage
+↓
+Learning
+↓
+Session終了
+```
+
+役割:
+Goalが与えられたら、Projectを特定し、必要なAI AgentとWorkspaceを選び、そのGoal専用のSessionを生成、終了する。
+
+将来の理想:
+
+```md
+Human Agent:
+ホテル料金システムを完成させたい
+↓
+Session Manager:
+Thinking Agent（ChatGPT）
+↓
+Editing Agent（Codex）
+↓
+Coding Agent（Cursor）
+↓
+Knowledge Agent（NotebookLM）
+↓
+Storage Agent（Git / Drive）
+↓
+Human Agent Mission
+```
+
+Human Agentは承認だけ行う。
+
+承認フロー例:
+
+```md
+AI Workspace
+新しいTaskがあります。
+
+HOTEL_OS
+
+□ Thinking完了
+□ Human Mission生成
+□ LINEテンプレート生成
+□ Codex編集
+□ Git保存
+
+承認しますか？
+
+[ 承認 ]
+```
+
+検証対象:
+
+- [ ] Session単位の方がチャット管理より迷わないか
+- [ ] Goal単位でAI Agentを切り替えられるか
+- [ ] Projectとの対応関係が自然か
+- [ ] Human Agentの認知負荷が下がるか
+- [ ] 承認だけで作業が回る設計に近づくか
+
+既存構造との関係:
+- Workspace Routerは、作業場所を選ぶ。
+- Goal-to-System Blueprintは、Goalから必要な能力、役割、成果物、実行、承認、学習まで分解する。
+- Session Managerは、そのGoalを処理する一時的な作業空間を生成、管理、終了する。
+- Projectは正本であり、Sessionは一時作業場である。
+
+自己レビュー:
+- Layer Leak: なし。AI Workspace OS Project内のFuture Candidateとして保存する。
+- Workspace Routerとの重複: Workspace Routerは場所選定、Session ManagerはGoal単位の作業空間管理であり責務が異なる。
+- Goal-to-System Blueprintとの関係: 自然。Goal-to-System Blueprintが設計図、Session Managerが実行単位の管理候補。
+- Operation Layer昇格可能性: ある。ただし、複数Session運用で迷いが減るEvidenceが必要。
+- Project管理との分離: ProjectはMrBrain内の正本。SessionはChatGPT / Codex / Cursorなどで動く一時作業場。
+- Kernel混入: なし。まだ実績不足のためKernelへ入れない。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
