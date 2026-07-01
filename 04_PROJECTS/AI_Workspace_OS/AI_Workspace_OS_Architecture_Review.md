@@ -489,6 +489,248 @@ Layer Leak:
 次の検証:
 HOTEL JOYのHuman Agent Mission、LINE文、A4指示書、Blueprint、実装仕様書のどれが最適成果物になるかを1案件で検証する。
 
+## Top-Level Hypothesis Review
+
+テーマ:
+「人間が最高の体験で現実を変えられるOS」という仮説が、AI Workspace OS / MrBrain / Design System / Human Agent / Execution OSの最上流として成立するか確認する。
+
+重要:
+これは新しいPrincipleではない。
+現時点ではArchitecture Discussionとして保存し、3〜5分野で説明力が確認できた場合のみPrinciple Candidateとしてレビューする。
+
+### 仮説
+
+```md
+Experience
+↓
+Intent
+↓
+Goal Validation
+↓
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Reality Change
+↓
+Learning
+↓
+Experience Update
+```
+
+この仮説では、OSの目的は「AIを使うこと」ではない。
+
+目的は、Humanが最小の迷い、最小の負担、最高の理解と安心感で、現実を変えられる状態を作ることである。
+
+AI、Workspace、Design、Motion、Execution、Git、NotebookLM、Browser Automationは、そのための部品である。
+
+### 1. これまでの構造を説明できるか
+
+| 対象 | Experience仮説での説明 |
+|---|---|
+| Reality Model | Humanが現実を直接全部理解しなくても動けるよう、Realityを扱える形へ圧縮する |
+| Goal Validation Gate | Humanの曖昧なIntentを、危険なく進められるGoalへ変換する安全装置 |
+| Capability Registry | Goal達成に必要な能力を、実装方法から切り離して選べるようにする |
+| Decision Engine | RealityとGoalから、次に何をすればExperienceとRealityが改善するか決める |
+| Execution OS | Decisionを現実へ反映し、Reality Changeを起こす |
+| Human Agent | 現場でしか取れないEvidence、承認、現実操作を担う存在 |
+| AI Agent | 裏側の整理、推論、設計、Mission生成、Gap Analysisを担う存在 |
+| Design System | Humanが迷わず、気持ちよく、理解しやすく動くためのPresentation基盤 |
+| Animation System | 状態変化を理解しやすくし、操作の安心感を作るMotion基盤 |
+| Interaction | Humanが触った時に、次の状態と安心を返す接点 |
+| Presentation | ArtifactをHumanが理解、承認、実行しやすい形へ変換する層 |
+| Artifact | LINE、A4、Blueprint、UI、メールなど、Experienceを届ける具体物 |
+| Learning | Reality Changeの結果をOSへ戻し、次回のExperienceを改善する |
+| MrBrain | 判断基準、Blueprint、Project正本、Learningの保存先 |
+| HOTEL JOY | 信号、料金、部屋状態、売上、清掃、経理、税務を一気通貫でつなぎ、Humanの迷いと手作業を減らす実験場 |
+
+結論:
+かなり自然に説明できる。
+
+特に、Design System、Human Agent Mission、Approval Flow、Execution OSが別々の話ではなく、Human Experienceを改善するための部品として一本につながる。
+
+### 2. これまでのユーザー行動との一致
+
+一致している行動:
+
+- 余白を気にする
+- LINE文の読みやすさを気にする
+- Human Agentが動きやすい表現を気にする
+- 「写真はきれいじゃなくてOK」のような安心文に価値を感じる
+- 承認だけで進めたい
+- 全Artifactを同じデザインで出したい
+- AIに裏側を整理させたい
+- 外部世界をAPI / Browser / LINE / Appで動かしたい
+- Git / Snapshotで戻れる安心を作りたい
+- Kernelを軽くし、必要な時だけLibrary / Projectを読む構造にしたい
+
+これらはすべて、単なる効率化ではなく、Humanが迷わず、疲れず、安心して現実を動かすための設計として説明できる。
+
+つまり、ユーザーは「AIツールを使いたい」のではなく、「AIやシステムを裏側に置き、Humanが価値の高い判断と承認に集中できるExperience」を作ろうとしている。
+
+### 3. 説明できないもの、弱点
+
+無理に合わせない場合の弱点:
+
+| 弱点 | 内容 |
+|---|---|
+| Experienceの定義が広い | 何でもExperienceで説明できてしまう危険がある |
+| Realityとの順番 | Experienceを最上流に置くと、現実理解より主観を優先して見える可能性がある |
+| 投資 / 人体で未検証 | HOTEL JOY、Design、Human Agentでは自然だが、投資や人体で同じ強さがあるか未確認 |
+| Brandとの境界 | Experience、Brand、Designの責務がまだ完全には分離できていない |
+| Executionとの距離 | Experienceだけでは、具体的にどう現実を変えるかまでは決まらない |
+
+現時点では、ExperienceをCore Principleにするにはまだ広すぎる。
+
+ただし、最上流の方向性としては非常に強い。
+
+### 4. Architectureの見直し案
+
+現行Architecture:
+
+```md
+Goal
+↓
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Learning
+```
+
+見直し案:
+
+```md
+Experience Intent
+↓
+Goal Validation Gate
+↓
+Goal
+↓
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Approval
+↓
+Execution
+↓
+Reality Change
+↓
+Learning
+↓
+Experience Update
+```
+
+ポイント:
+- Humanは最初から正確なGoalを話すとは限らない。
+- Humanは違和感、願望、体験の不満を話すことが多い。
+- OSはIntentをGoalへ変換する前に、どんなExperienceを改善したいのかを読む必要がある。
+- Execution後はRealityだけでなくExperienceも更新される。
+
+ただし、これは現時点ではArchitecture Discussionであり、Core Layerの正式変更ではない。
+
+### 5. Principle昇格判断
+
+現時点では昇格しない。
+
+理由:
+- HOTEL JOY、Design System、Human Agentでは強いが、投資、経理、人体、Bookingでの検証が不足している
+- ExperienceがBrand / Design / Goal Validationと重なる可能性がある
+- Core Principleにすると抽象度が高すぎ、AIの出力がぼやける危険がある
+
+昇格するなら、次の条件を満たす必要がある。
+
+```md
+3〜5分野で、
+Experience → Intent → Goal Validation → Reality → Execution → Learning
+の流れが自然に成立する。
+
+かつ、
+この仮説を使うことで、
+Human Costが下がり、
+成果物品質が上がり、
+Reality Changeまでの迷いが減る。
+```
+
+### 検証対象
+
+| Project | 検証観点 |
+|---|---|
+| HOTEL JOY | Humanが承認と現場Evidenceだけで、ホテルOSを進められるか |
+| AI Workspace OS | Goalだけ話せば、Workspace / Capability / Artifact / Executionが組み立つか |
+| Design System | Design変更ではなくExperience改善として全Artifactが揃うか |
+| Human Agent Mission | Human Agentが迷わず、止まらず、前向きに動けるか |
+| Booking返信 | Humanが返信判断だけ行い、AIが下書きと安全確認を担えるか |
+| 経理 | 手入力と確認漏れを減らし、承認だけに近づけるか |
+| 投資 | 情報過多を減らし、価値ある判断だけに集中できるか |
+| 人体 | 不安や迷いを減らし、改善行動へ自然に移れるか |
+
+### 評価
+
+成立度:
+88 / 100
+
+最も一致している部分:
+Human Agent、Design System、Animation System、Approval Flow、Execution OS。
+
+これらはすべて、Humanが迷わず、安心して、少ないエネルギーで現実を変えるための部品として説明できる。
+
+最も弱い部分:
+投資と人体。
+
+投資ではExperienceより「価値判断」「リスク」「資本配分」が上流に見える可能性がある。
+人体ではExperienceより「生理状態」「症状」「検査値」が上流に見える可能性がある。
+
+ただし、どちらも最終的にはHumanが不安なく判断し、行動できるExperienceへ戻る可能性はある。
+
+既存Architectureとの矛盾:
+大きな矛盾はない。
+
+ただし、現行Architectureの`Goal`より前に`Intent / Experience`を置く見方が必要になる。
+
+次に検証すべきProject:
+HOTEL JOY。
+
+理由:
+Signal、Human Agent、Design、Approval、Execution、Learningがすべて含まれ、Experience仮説を最も具体的に検証できる。
+
+Principle化するなら条件:
+
+```md
+HOTEL JOY
+AI Workspace OS
+Human Agent Mission
+経理
+投資または人体
+
+のうち3〜5分野で、
+Experienceを最上流に置くことで、
+Goal設定、Artifact選択、Execution、Learningが明確になること。
+```
+
+今はどこに保存すべきか:
+この文書内の`Top-Level Hypothesis Review`として保存する。
+
+Kernel / Principle / AI_CONTEXT / AGENTSには入れない。
+Future Candidateにもまだ昇格しない。
+
 ## Goal Validation Gate Discussion
 
 今回の気付き:
