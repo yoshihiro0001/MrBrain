@@ -250,6 +250,85 @@ Humanの好みや違和感を、再利用可能なDesign Tokenへ変換する。
 
 このLoopが成立すると、Designは一度で確定するものではなく、触りながら育つものになる。
 
+## Phase 2.45: Human Delivery Layer
+
+目的:
+成果物を作った後、Human Agentが最小コストで確認、承認、Feedbackできる導線を必ず出す。
+
+Design Playgroundを作っても、Human Agentがスマホで即確認できなければ体験が止まる。
+
+作成報告だけでは不十分。
+
+AIは、Human Agentが次を迷わないようにする。
+
+- 今すぐ見る
+- スマホで見る
+- 何を確認する
+- どう返す
+- 次に何を承認する
+
+### 必須出力
+
+Artifact生成後に出すもの:
+
+- PCで見る方法
+- スマホで見る方法
+- QRコード生成の候補
+- 確認ポイント
+- Feedbackの返し方
+- 次の承認Action
+
+### Design Playground例
+
+```md
+PCで見る:
+file:///Users/.../05_DESIGN_SYSTEM/playground/index.html
+
+スマホで見る:
+QRコード、またはローカルサーバーURL
+
+確認すること:
+- 余白
+- 丸み
+- 色
+- Motion
+- 操作の気持ちよさ
+
+Feedback例:
+- 余白をもう少し広く
+- 色をもう少しネイビー寄り
+- スマホで文字が小さい
+
+次のAction:
+Keep / Discard / Compare / 修正依頼
+```
+
+### 将来構想
+
+- localhost / LAN URLでスマホ確認
+- QRコード自動生成
+- Feedback Inboxへ直接送信
+- Approval Inboxと接続
+- Design Token候補へ自動変換
+
+### 責務分離
+
+| 項目 | 役割 |
+|---|---|
+| Design Playground | 見る、比較する場所 |
+| Human Delivery Layer | Human Agentへ届ける導線 |
+| Design Feedback Inbox | 違和感を受け取る場所 |
+| Design Token Versioning | 決定を保存、復元する場所 |
+
+### 新規ファイル化の判断
+
+今は`05_DESIGN_SYSTEM/Human_Delivery_Layer.md`を作らない。
+
+作る条件:
+- Artifact生成後に毎回Delivery導線が必要になる
+- QRコード、LAN URL、スマホ確認、Feedback返送の手順が増える
+- Playground / Roadmap内では長くなりすぎる
+
 ## Phase 2.5: Design Feedback Inbox
 
 目的:
