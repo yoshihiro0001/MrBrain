@@ -1407,6 +1407,252 @@ Approval:
 - Kernel混入: なし。まだ実績不足のためKernel / Principle / AI_CONTEXT / AGENTSへ入れない。
 - 概念増加: 注意が必要。Reality Model、Capability Registry、Session Managerとの関係を保ったまま、Future CandidateとしてEvidenceを集める。
 
+### Decision Engine（Future Candidate）
+目的:
+Realityを理解した後、Executionへ進む前に、「何を判断すべきか」を整理する共通レイヤーが存在する可能性を検証する。
+
+Status:
+Future Candidate
+
+今回の発見:
+これまでは次の順で考えていた。
+
+```md
+Reality
+↓
+Capability
+↓
+Execution
+```
+
+しかし、HOTEL JOYを整理すると、Executionの前に「何を実行するべきかを決める」共通レイヤーが存在する可能性がある。
+
+仮説:
+
+```md
+Reality
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Learning
+```
+
+Decision Engineとは:
+Reality Modelから現在の状態を理解し、Goal達成のために「次に何を実行するべきか」を決定する処理である。
+
+Execution方法、たとえばAPI、Browser、Human Agentなどはここでは決めない。
+Decisionだけを決める。
+
+HOTEL JOYでの例:
+
+```md
+Reality:
+客室利用
+↓
+State:
+利用中
+↓
+Decision:
+料金開始
+↓
+Execution:
+売上開始
+テレビ表示更新
+スマホ通知
+↓
+Record:
+売上保存
+```
+
+```md
+Reality:
+退室
+↓
+State:
+清掃待ち
+↓
+Decision:
+清掃Mission生成
+↓
+Execution:
+LINE送信
+アプリ通知
+Human Agent実行
+↓
+Learning:
+完了確認
+```
+
+メルカリでの例:
+
+```md
+Reality:
+商品販売中
+↓
+State:
+閲覧増
+購入なし
+↓
+Decision:
+価格変更
+↓
+Execution:
+価格更新
+```
+
+Bookingでの例:
+
+```md
+Reality:
+予約受付
+↓
+State:
+返信待ち
+↓
+Decision:
+返信生成
+↓
+Execution:
+Human承認
+↓
+送信
+```
+
+人体での例:
+
+```md
+Reality:
+炎症
+↓
+State:
+回復途中
+↓
+Decision:
+睡眠を優先
+↓
+Execution:
+生活改善
+```
+
+投資での例:
+
+```md
+Reality:
+IR公開
+↓
+State:
+利益改善
+↓
+Decision:
+監視継続
+または
+購入候補
+↓
+Execution:
+通知
+分析
+注文
+```
+
+Reality / Decision / Execution の責務:
+
+Reality:
+現実で何が起きているか。
+
+Decision:
+何を実行するべきか決める。
+
+Execution:
+Decisionを現実で実行する方法。
+
+Execution Component例:
+- Human Agent
+- LINE API
+- Browser Automation
+- REST API
+- DB更新
+- アプリ通知
+- メール送信
+
+Human Agentとの関係:
+Human Agentは、Decision Engineが生成したMissionだけを実行する。
+Human Agent自身が全体設計を考える必要はない。
+
+AI Agentとの関係:
+AI AgentはRealityを解析し、Decision候補を生成する。
+不足Evidenceがあれば、Representative Evidence SetをHuman Agentへ依頼する。
+
+Goalとの関係:
+
+```md
+Goal
+↓
+Reality
+↓
+Representative Evidence
+↓
+Reality Model
+↓
+Capability
+↓
+Decision
+↓
+Execution
+↓
+Learning
+↓
+Reality更新
+```
+
+Decisionは、GoalとRealityを最短距離で接続する役割を持つ。
+
+HOTEL JOY最終イメージ:
+最終Goalは、ホテル内で発生するRealityをDecision Engineで判断し、Execution OSが現実へ反映すること。
+
+例:
+- 料金計算
+- テレビ画面更新
+- スタッフ画面更新
+- LINE通知
+- スマホ通知
+- Booking返信
+- タイムカード
+- 経費入力
+- 税務データ生成
+- 予約同期
+
+これらは個別機能ではなく、Decision Engineが判断したExecutionの結果として扱う。
+
+検証対象:
+
+- [ ] HOTEL JOY
+- [ ] メルカリ
+- [ ] Booking
+- [ ] 投資
+- [ ] 人体
+- [ ] 経理
+- [ ] AI Workspace OS
+
+昇格条件:
+3〜5分野以上でDecisionがExecutionより独立した責務として自然に成立するなら、Core Candidateとしてレビューする。
+現時点ではFuture Candidateのままとする。
+
+自己レビュー:
+- Layer Leak: なし。AI Workspace OS Project内のFuture Candidateとして保存する。
+- Reality Modelとの責務: Reality Modelは現実構造と状態を理解する。Decision Engineはその状態から次に何をすべきかを決める。責務は分離できている。
+- Execution OSとの重複: Execution OSはDecisionを現実へ実行する方法を扱う。Decision Engineは実行方法ではなく実行内容を決めるため、責務は異なる。
+- Capability Registryとの関係: 自然。Capabilityは可能な能力、Decisionはその時点で使うべき能力や行動の選択である。
+- Session Managerとの整合性: ある。Session内でReality理解、Decision、Executionが進む構造として扱える。
+- 概念増加: 注意が必要。Reality / Capability / Decision / Executionの分離が複数分野で有効かを検証してから昇格を判断する。
+- 改善案: HOTEL JOY、Booking、メルカリのように「外部影響前の判断」が明確な案件から検証する。
+- Kernel混入: なし。まだ実績不足のためKernel / Principle / AI_CONTEXT / AGENTSへ入れない。
+
 ### Future Candidate自己レビュー
 Layer Leak:
 Future CandidateはProject内の検証テーマとして管理しており、Kernel、Principle、AI_CONTEXTには入れていない。
