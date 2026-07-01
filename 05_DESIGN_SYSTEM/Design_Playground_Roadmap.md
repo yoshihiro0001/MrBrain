@@ -56,6 +56,50 @@ Design Tokenを切り替え、ComponentとArtifact Previewを実際に見る。
 - どのTokenが見た目に影響しているか分かる
 - Mobile Approvalの方向が確認できる
 
+## Phase 1.5: Design Decision Experience v2
+
+目的:
+設定画面から、Humanが心地よくDesignを決める体験へ進化させる。
+
+v1の課題:
+- 専門用語が多い
+- 左の設定パネルとPreviewの距離が遠い
+- Token値を選ぶ体験になっている
+- Humanが何を判断すればよいか分かりにくい
+
+v2の方針:
+
+```md
+1画面1判断
+↓
+体験の言葉で質問
+↓
+A/B/C比較
+↓
+変更前 / 変更後Preview
+↓
+好き / 違うで選ぶ
+↓
+暫定Design Tokenへ変換
+```
+
+最初に扱う判断:
+- Spacing
+- Radius
+- Motion
+- Glass
+- Typography
+
+成功条件:
+- Human AgentがDesign用語を知らなくても判断できる
+- 「どちらが好きか」で選べる
+- Previewで差分がすぐ分かる
+- 最後に暫定Design Tokenがまとまる
+- Design Decision Logへつなげられる
+
+このPhaseでは、まだhotel_systemへ移植しない。
+MrBrain内の静的HTMLで体験改善を確認する。
+
 ## Phase 2: Token Export
 
 目的:

@@ -330,3 +330,124 @@ Mobile Approval Card
 理由:
 AI Workspace OSの最終ビジョンでは、Humanがスマホで承認する体験が最重要だから。
 
+## v2 Review: Design Decision Experience
+
+現行Playgroundは、Design Tokenを確認する最低限の静的HTMLとしては有効。
+
+ただし、Human Agentが専門用語を知らなくても、心地よく直感的にデザインを決める体験としてはまだ弱い。
+
+### 現在の問題点
+
+| 観点 | 問題 |
+|---|---|
+| 専門用語 | Theme、Spacing、Radius、Shadow、Glass、Typographyなど、Designを知らない人には判断しづらい |
+| 操作とPreviewの距離 | 左で設定し、右で全体を見るため、何が変わったか分かりにくい |
+| 判断軸 | 「設定値を選ぶ」体験になっており、「どちらが気持ちいいか」で選べない |
+| Preview | 全体は見えるが、変更前 / 変更後の比較が弱い |
+| Human Agent視点 | 何を判断すればよいかの質問が足りない |
+| 心地よさ | Design Decision Platformというより、まだ設定画面に見える |
+
+### 理想のPlayground体験
+
+Design Playground v2は、設定画面ではなくDesign Decision Experienceにする。
+
+理想:
+
+```md
+質問
+↓
+A案 / B案 / C案
+↓
+横並びPreview
+↓
+Humanが「好き」を選ぶ
+↓
+Design Token候補へ反映
+↓
+次の質問
+↓
+最後に暫定Design Tokenを表示
+```
+
+重要:
+HumanはDesign用語を理解しなくてよい。
+
+AIが裏側でTokenへ変換する。
+
+### v2の基本構造
+
+```md
+左:
+今日のDesign判断
+質問
+選択肢
+Aが好き / Bが好き / どちらも違う
+
+右:
+変更前 / 変更後Preview
+Artifact Preview
+Design Token Candidate
+```
+
+### 質問の言葉
+
+専門用語ではなく、体験の言葉で聞く。
+
+| Token | Human向け質問 | 選択肢 |
+|---|---|---|
+| Spacing | 余白はどちらが気持ちいいですか？ | A: しっかり詰まった印象 / B: ゆったり呼吸する印象 |
+| Radius | どちらの丸みが好きですか？ | A: しっかりした印象 / B: やわらかい印象 |
+| Motion | この動きは心地いいですか？ | A: 速い / B: ちょうどいい / C: 遅い |
+| Glass | どちらが見やすいですか？ | A: 透明感あり / B: はっきり |
+| Typography | どちらが読みやすいですか？ | A: 実用的 / B: 少し雰囲気がある |
+
+### Design Decision Log構想
+
+将来は、選択結果をDesign Decision Logへ保存する。
+
+保存するもの:
+
+- 日付
+- 質問
+- 選んだ案
+- 選ばなかった案
+- Humanの理由
+- 変換されたDesign Token
+- 影響Artifact
+- 戻す理由
+
+例:
+
+```md
+Decision:
+Spacingは「ゆったり呼吸する印象」を選択。
+
+Token:
+spacing = relaxed
+
+Reason:
+Human Agent MissionとMobile Approvalで、読む負担が少なく感じたため。
+```
+
+### v2成功条件
+
+- 1画面1判断になっている
+- 専門用語を知らなくても選べる
+- 変更前 / 変更後が横並びで見える
+- Userが「好き / 違う」で判断できる
+- 最後に暫定Design Tokenが出る
+- Design Taste Testの好みを、実物で検証できる
+
+### 自己レビュー
+
+Layer Leak:
+なし。これはDesign System内のPlayground改善であり、Kernel / Principle / AI_CONTEXT / AGENTSには入れない。
+
+Design Systemとの責務:
+自然。PlaygroundはDesign System正本を決める前のDecision Platformである。
+
+Design Taste Testとの違い:
+明確。Taste Testは好みの言語化。Playground v2は実物を見て選ぶ体験。
+
+Design Decision Platformとして自然か:
+v1より自然。Humanは設定値ではなく、体験としての好みを選ぶだけでよい。

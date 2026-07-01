@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MrBrain Design Playground</title>
+    <title>MrBrain Design Playground v2</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -35,57 +35,50 @@
         margin: 0;
         min-height: 100vh;
         background:
-          radial-gradient(circle at 22% 0%, rgba(52, 211, 153, 0.16), transparent 30%),
-          radial-gradient(circle at 90% 12%, rgba(148, 163, 184, 0.15), transparent 28%),
+          radial-gradient(circle at 18% 0%, rgba(52, 211, 153, 0.16), transparent 32%),
+          radial-gradient(circle at 94% 8%, rgba(148, 163, 184, 0.14), transparent 30%),
           var(--bg);
         color: var(--text);
         font-family: var(--font);
         letter-spacing: 0;
       }
 
-      button,
-      input,
-      select {
+      button {
         font: inherit;
       }
 
-      .app {
-        display: grid;
-        grid-template-columns: 320px minmax(0, 1fr);
+      .shell {
         min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
       }
 
-      .sidebar {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        overflow: auto;
-        padding: 22px;
-        border-right: 1px solid var(--line);
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: center;
+        padding: 18px 28px;
+        border-bottom: 1px solid var(--line);
         background: rgba(0, 0, 0, 0.18);
-        backdrop-filter: blur(var(--glass-blur));
-      }
-
-      .main {
-        padding: 28px;
+        backdrop-filter: blur(18px);
       }
 
       .brand {
         display: flex;
-        align-items: center;
         gap: 12px;
-        margin-bottom: 22px;
+        align-items: center;
       }
 
       .logo {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
         display: grid;
         place-items: center;
-        border-radius: 12px;
         background: var(--panel-strong);
         border: 1px solid var(--line);
-        font-weight: 800;
+        font-weight: 850;
       }
 
       h1,
@@ -97,72 +90,39 @@
 
       h1 {
         font-size: 18px;
-        line-height: 1.25;
+        line-height: 1.2;
       }
 
       .sub {
         color: var(--muted);
         font-size: 12px;
-        margin-top: 3px;
+        line-height: 1.5;
       }
 
-      .control-group {
-        padding: 14px 0;
-        border-top: 1px solid var(--line);
-      }
-
-      .control-title {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-        color: var(--muted);
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border-radius: 999px;
+        padding: 8px 11px;
+        background: rgba(52, 211, 153, 0.14);
+        color: var(--accent);
         font-size: 12px;
+        font-weight: 750;
       }
 
-      .segmented {
+      .main {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .segmented.wide {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-
-      .option {
-        min-height: 34px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.045);
-        color: var(--muted);
-        cursor: pointer;
-        transition: background var(--motion), color var(--motion), transform 120ms, border-color var(--motion);
-      }
-
-      .option:hover {
-        color: var(--text);
-        transform: translateY(-1px);
-      }
-
-      .option.active {
-        background: rgba(52, 211, 153, 0.18);
-        border-color: rgba(52, 211, 153, 0.5);
-        color: var(--text);
-      }
-
-      .hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-        gap: var(--space);
-        align-items: stretch;
-        margin-bottom: var(--space);
+        grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.6fr);
+        gap: 22px;
+        padding: 24px;
       }
 
       .panel,
-      .card,
+      .choice,
+      .preview-card,
       .artifact,
-      .compare-card {
+      .token-panel {
         border: 1px solid var(--line);
         border-radius: var(--radius);
         background: var(--panel);
@@ -171,178 +131,245 @@
       }
 
       .panel {
-        padding: calc(var(--space) * 1.05);
+        padding: 22px;
       }
 
-      .eyebrow {
+      .question {
+        position: sticky;
+        top: 24px;
+        align-self: start;
+      }
+
+      .step {
         color: var(--accent);
         font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-      }
-
-      .display {
-        font-size: clamp(32px, 5vw, 72px);
-        line-height: 0.95;
-        max-width: 860px;
-      }
-
-      .lead {
-        margin-top: 18px;
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.7;
-        max-width: 680px;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 22px;
-      }
-
-      .primary,
-      .secondary {
-        border: 1px solid var(--line);
-        border-radius: calc(var(--radius) * 0.75);
-        padding: 12px 15px;
-        color: var(--text);
-        cursor: pointer;
-        transition: transform 120ms, background var(--motion), border-color var(--motion);
-      }
-
-      .primary {
-        background: var(--accent);
-        color: #04110c;
-        border-color: transparent;
         font-weight: 800;
+        margin-bottom: 12px;
+        text-transform: uppercase;
       }
 
-      .secondary {
-        background: rgba(255, 255, 255, 0.06);
-      }
-
-      .primary:active,
-      .secondary:active {
-        transform: scale(0.98);
-      }
-
-      .decision {
-        display: grid;
-        gap: 14px;
-      }
-
-      .big-number {
-        font-size: 56px;
-        line-height: 0.9;
-        font-weight: 850;
-      }
-
-      .status-row {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 12px;
-        align-items: center;
-        padding: 12px 0;
-        border-top: 1px solid var(--line);
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        border-radius: 999px;
-        padding: 7px 10px;
-        background: rgba(52, 211, 153, 0.14);
-        color: var(--accent);
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-      .section {
-        margin-top: var(--space);
-      }
-
-      .section-head {
-        display: flex;
-        justify-content: space-between;
-        gap: 14px;
-        align-items: end;
+      .question h2 {
+        font-size: clamp(28px, 4.5vw, 48px);
+        line-height: 1.05;
         margin-bottom: 14px;
       }
 
-      .section h2 {
-        font-size: 18px;
+      .help {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 14px;
+        margin-bottom: 20px;
       }
 
-      .grid {
+      .choices {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 14px;
+        gap: 10px;
       }
 
-      .card {
-        padding: 16px;
-        min-height: 150px;
-        transition: transform var(--motion), background var(--motion), border-color var(--motion);
+      .choice {
+        width: 100%;
+        text-align: left;
+        padding: 15px;
+        color: var(--text);
+        cursor: pointer;
+        transition: transform 130ms, background var(--motion), border-color var(--motion);
       }
 
-      .card:hover {
-        transform: translateY(-2px);
+      .choice:hover {
+        transform: translateY(-1px);
         background: var(--panel-strong);
       }
 
-      .icon {
-        width: 34px;
-        height: 34px;
-        display: grid;
-        place-items: center;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.08);
-        margin-bottom: 14px;
+      .choice.active {
+        border-color: rgba(52, 211, 153, 0.62);
+        background: rgba(52, 211, 153, 0.16);
       }
 
-      .card h3 {
-        font-size: 15px;
-        margin-bottom: 8px;
+      .choice-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-weight: 800;
+        margin-bottom: 6px;
       }
 
-      .card p,
-      .artifact p,
-      .compare-card p {
+      .choice p {
         color: var(--muted);
         font-size: 13px;
         line-height: 1.55;
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .nav button,
+      .decision-button {
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) * 0.72);
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        cursor: pointer;
+        transition: transform 130ms, background var(--motion), border-color var(--motion);
+      }
+
+      .nav button:hover,
+      .decision-button:hover {
+        background: var(--panel-strong);
+      }
+
+      .nav button:active,
+      .decision-button:active {
+        transform: scale(0.98);
+      }
+
+      .decision-button.primary {
+        border-color: transparent;
+        background: var(--accent);
+        color: #04110c;
+        font-weight: 850;
+      }
+
+      .preview {
+        display: grid;
+        gap: 22px;
+      }
+
+      .preview-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: flex-end;
+      }
+
+      .preview-head h2 {
+        font-size: 20px;
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .preview-card {
+        padding: var(--space);
+        min-height: 360px;
+        font-family: var(--font);
+      }
+
+      .preview-card.selected {
+        border-color: rgba(52, 211, 153, 0.64);
+      }
+
+      .preview-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .mock-phone {
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) + 8px);
+        padding: 14px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .mock-screen {
+        display: grid;
+        gap: calc(var(--space) * 0.56);
+        min-height: 260px;
+      }
+
+      .mock-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: calc(var(--space) * 0.68);
+        background: var(--panel-strong);
+        transition: transform var(--motion), background var(--motion), border-color var(--motion);
+      }
+
+      .mock-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .big {
+        font-size: 42px;
+        line-height: 1;
+        font-weight: 900;
+        margin-bottom: 8px;
+      }
+
+      .mock-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .button-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .mini {
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) * 0.65);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        padding: 10px 8px;
+        min-height: 40px;
+      }
+
+      .mini.ok {
+        background: rgba(52, 211, 153, 0.18);
+        color: var(--accent);
       }
 
       .artifact-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
+        font-family: var(--font);
       }
 
       .artifact {
         padding: 16px;
-        min-height: 220px;
+        min-height: 190px;
       }
 
-      .line-preview {
-        display: grid;
-        gap: 8px;
-        margin-top: 12px;
+      .artifact h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
       }
 
-      .bubble {
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 10px 12px;
+      .artifact p,
+      .token-panel p {
+        color: var(--muted);
         font-size: 13px;
         line-height: 1.55;
       }
 
-      .mission-list {
+      .line-bubble {
+        margin-top: 10px;
+        border-radius: 14px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .checks {
         display: grid;
         gap: 8px;
         margin-top: 12px;
@@ -350,9 +377,8 @@
 
       .check {
         display: flex;
-        gap: 9px;
         align-items: center;
-        color: var(--text);
+        gap: 8px;
         font-size: 13px;
       }
 
@@ -366,91 +392,38 @@
         color: var(--accent);
       }
 
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-        font-size: 13px;
+      .token-panel {
+        padding: 18px;
       }
 
-      .table td,
-      .table th {
-        border-top: 1px solid var(--line);
-        padding: 10px 4px;
-        text-align: left;
-      }
-
-      .table td:last-child,
-      .table th:last-child {
-        text-align: right;
-      }
-
-      .compare {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .compare-card {
-        padding: 16px;
-        display: grid;
-        gap: 14px;
-      }
-
-      .approve-row {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .mini-button {
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 10px 8px;
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-      }
-
-      .mini-button.ok {
-        background: rgba(52, 211, 153, 0.2);
-        color: var(--accent);
-      }
-
-      .token-output {
+      pre {
+        margin: 14px 0 0;
         white-space: pre-wrap;
         overflow: auto;
-        max-height: 240px;
+        max-height: 260px;
         padding: 14px;
-        border-radius: var(--radius);
+        border-radius: calc(var(--radius) * 0.75);
         border: 1px solid var(--line);
         background: rgba(0, 0, 0, 0.24);
         color: var(--muted);
         font: 12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       }
 
-      body.light {
-        --bg: #f6f7f8;
-        --panel: rgba(255, 255, 255, 0.82);
-        --panel-strong: #ffffff;
-        --text: #101318;
-        --muted: rgba(16, 19, 24, 0.62);
-        --line: rgba(16, 19, 24, 0.12);
-        --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
-        color-scheme: light;
+      .progress {
+        display: flex;
+        gap: 6px;
+        margin-top: 18px;
       }
 
-      body.minimal {
-        --panel: transparent;
-        --panel-strong: rgba(255, 255, 255, 0.05);
-        --shadow: none;
-        --glass-blur: 0px;
+      .dot {
+        height: 7px;
+        flex: 1;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
       }
 
-      body.glass {
-        --panel: rgba(255, 255, 255, 0.1);
-        --panel-strong: rgba(255, 255, 255, 0.18);
-        --shadow: 0 28px 96px rgba(0, 0, 0, 0.36);
-        --glass-blur: 24px;
+      .dot.done {
+        background: var(--accent);
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -463,21 +436,21 @@
         }
       }
 
-      @media (max-width: 1100px) {
-        .app {
+      @media (max-width: 980px) {
+        .main,
+        .compare-grid,
+        .artifact-grid {
           grid-template-columns: 1fr;
         }
 
-        .sidebar {
+        .question {
           position: relative;
-          height: auto;
+          top: auto;
         }
 
-        .hero,
-        .artifact-grid,
-        .compare,
-        .grid {
-          grid-template-columns: 1fr;
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
         }
       }
     </style>
@@ -486,283 +459,291 @@
     <div id="root"></div>
 
     <script type="text/babel">
-      const { useEffect, useMemo, useState } = React;
+      const { useMemo, useState } = React;
 
-      const OPTIONS = {
-        theme: ["Dark", "Light", "Glass", "Minimal"],
-        spacing: ["Compact", "Comfortable", "Relaxed"],
-        radius: [8, 12, 16, 20],
-        shadow: ["None", "Soft", "Medium", "Glass"],
-        speed: ["Fast", "Normal", "Slow"],
-        motion: ["Minimal", "Smooth", "Expressive"],
-        glass: ["OFF", "Weak", "Medium", "Strong"],
-        typography: ["Inter", "Geist", "SF", "Playfair"],
+      const QUESTIONS = [
+        {
+          id: "spacing",
+          token: "spacing",
+          title: "余白はどちらが気持ちいいですか？",
+          help: "情報を詰めて速く見るか、ゆったり呼吸できる余白にするかを選びます。",
+          choices: [
+            { id: "A", label: "A: しっかり詰まった印象", value: "compact", note: "業務画面として速く見える。情報密度が高い。" },
+            { id: "B", label: "B: ゆったり呼吸する印象", value: "relaxed", note: "Human Agent Missionや承認画面で疲れにくい。" },
+          ],
+        },
+        {
+          id: "radius",
+          token: "radius",
+          title: "どちらの丸みが好きですか？",
+          help: "しっかりした業務感か、やわらかく安心できる印象かを選びます。",
+          choices: [
+            { id: "A", label: "A: しっかりした印象", value: 10, note: "硬めで、情報管理ツールらしい。" },
+            { id: "B", label: "B: やわらかい印象", value: 18, note: "触りやすく、承認体験が軽く感じる。" },
+          ],
+        },
+        {
+          id: "motion",
+          token: "motionSpeed",
+          title: "この動きは心地いいですか？",
+          help: "操作した時の反応速度を選びます。速すぎても遅すぎても疲れます。",
+          choices: [
+            { id: "A", label: "A: 速い", value: "fast", note: "反応が速い。業務では良いが少し硬い可能性。" },
+            { id: "B", label: "B: ちょうどいい", value: "normal", note: "状態変化が分かりやすく、待たされ感も少ない。" },
+            { id: "C", label: "C: 遅い", value: "slow", note: "落ち着くが、毎日使うと重く感じる可能性。" },
+          ],
+        },
+        {
+          id: "glass",
+          token: "glass",
+          title: "どちらが見やすいですか？",
+          help: "透明感の気持ちよさと、文字の読みやすさのバランスを選びます。",
+          choices: [
+            { id: "A", label: "A: 透明感あり", value: "medium", note: "世界観は出る。Web/App向け。" },
+            { id: "B", label: "B: はっきり", value: "off", note: "読みやすい。A4、Mail、業務確認向け。" },
+          ],
+        },
+        {
+          id: "typography",
+          token: "typography",
+          title: "どちらが読みやすいですか？",
+          help: "毎日見る文字として、実用性を優先するか、少し雰囲気を足すかを選びます。",
+          choices: [
+            { id: "A", label: "A: 実用的", value: "system", note: "Inter / SF系。読みやすく、業務画面に強い。" },
+            { id: "B", label: "B: 少し雰囲気がある", value: "display", note: "Playfair系を限定使用。エレガント寄りなので保留候補。" },
+          ],
+        },
+      ];
+
+      const DEFAULT_TOKENS = {
+        spacing: "relaxed",
+        radius: 18,
+        motionSpeed: "normal",
+        glass: "medium",
+        typography: "system",
       };
 
-      const INITIAL = {
-        theme: "Glass",
-        spacing: "Comfortable",
-        radius: 16,
-        shadow: "Glass",
-        speed: "Normal",
-        motion: "Smooth",
-        glass: "Medium",
-        typography: "Inter",
-      };
+      function tokenToCss(tokens) {
+        const space = tokens.spacing === "compact" ? 16 : tokens.spacing === "relaxed" ? 30 : 24;
+        const speed = tokens.motionSpeed === "fast" ? "140ms" : tokens.motionSpeed === "slow" ? "320ms" : "220ms";
+        const blur = tokens.glass === "off" ? "0px" : "18px";
+        const panel = tokens.glass === "off" ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.08)";
+        const font = tokens.typography === "display"
+          ? "Playfair Display, Georgia, serif"
+          : "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
-      function applyTokens(tokens) {
-        document.body.className = "";
-        if (tokens.theme === "Light") document.body.classList.add("light");
-        if (tokens.theme === "Minimal") document.body.classList.add("minimal");
-        if (tokens.theme === "Glass") document.body.classList.add("glass");
-
-        const spacingMap = { Compact: 16, Comfortable: 24, Relaxed: 34 };
-        const shadowMap = {
-          None: "none",
-          Soft: "0 14px 42px rgba(0,0,0,.18)",
-          Medium: "0 22px 70px rgba(0,0,0,.25)",
-          Glass: "0 28px 96px rgba(0,0,0,.34)",
+        return {
+          "--space": `${space}px`,
+          "--radius": `${tokens.radius}px`,
+          "--motion": speed,
+          "--glass-blur": blur,
+          "--panel": panel,
+          "--font": font,
         };
-        const speedMap = { Fast: "140ms", Normal: "220ms", Slow: "320ms" };
-        const glassMap = { OFF: "0px", Weak: "10px", Medium: "18px", Strong: "28px" };
-        const fontMap = {
-          Inter: "Inter, ui-sans-serif, system-ui, -apple-system, sans-serif",
-          Geist: "Geist, Inter, ui-sans-serif, system-ui, sans-serif",
-          SF: "-apple-system, BlinkMacSystemFont, SF Pro Display, Inter, sans-serif",
-          Playfair: "Playfair Display, Georgia, serif",
-        };
-
-        const target = document.body;
-        target.style.setProperty("--radius", `${tokens.radius}px`);
-        target.style.setProperty("--space", `${spacingMap[tokens.spacing]}px`);
-        target.style.setProperty("--shadow", shadowMap[tokens.shadow]);
-        target.style.setProperty("--motion", speedMap[tokens.speed]);
-        target.style.setProperty("--glass-blur", glassMap[tokens.glass]);
-        target.style.setProperty("--font", fontMap[tokens.typography]);
       }
 
-      function Control({ label, value, values, onChange, wide }) {
+      function makeCandidate(base, token, value) {
+        return { ...base, [token]: value };
+      }
+
+      function PreviewCard({ label, tokens, selected }) {
+        const style = tokenToCss(tokens);
+
         return (
-          <div className="control-group">
-            <div className="control-title">
-              <span>{label}</span>
-              <strong>{value}</strong>
+          <article className={`preview-card ${selected ? "selected" : ""}`} style={style}>
+            <div className="preview-title">
+              <div>
+                <h3>{label}</h3>
+                <p className="sub">Mobile Approval Preview</p>
+              </div>
+              {selected && <span className="badge">選択中</span>}
             </div>
-            <div className={`segmented ${wide ? "wide" : ""}`}>
-              {values.map((item) => (
-                <button
-                  key={item}
-                  className={`option ${item === value ? "active" : ""}`}
-                  onClick={() => onChange(item)}
-                >
-                  {item}
-                </button>
-              ))}
+            <div className="mock-phone">
+              <div className="mock-screen">
+                <div className="mock-card">
+                  <p className="sub">HOTEL JOY</p>
+                  <div className="big">4</div>
+                  <p className="sub">承認待ちの重要Action</p>
+                </div>
+                <div className="mock-card">
+                  <div className="mock-row"><span>Human Agent Mission</span><strong>Ready</strong></div>
+                  <div className="mock-row"><span>料金表Evidence</span><strong style={{ color: "var(--warning)" }}>Review</strong></div>
+                </div>
+                <div className="button-row">
+                  <button className="mini ok">OK</button>
+                  <button className="mini">修正</button>
+                  <button className="mini">保留</button>
+                  <button className="mini">却下</button>
+                </div>
+              </div>
             </div>
+          </article>
+        );
+      }
+
+      function ArtifactPreview({ tokens }) {
+        const style = tokenToCss(tokens);
+
+        return (
+          <div className="artifact-grid" style={style}>
+            <article className="artifact">
+              <h3>LINE</h3>
+              <p>短い文、余白、安心文で動けるか。</p>
+              <div className="line-bubble">今日お願いしたいのは、PCまわりの写真だけです。</div>
+              <div className="line-bubble">分からなければ写真だけでOKです。</div>
+            </article>
+            <article className="artifact">
+              <h3>Human Agent Mission</h3>
+              <p>現場で止まらず進めるか。</p>
+              <div className="checks">
+                <div className="check"><span className="box">✓</span> PC裏全体を撮る</div>
+                <div className="check"><span className="box">✓</span> キーボード全体を撮る</div>
+                <div className="check"><span className="box"></span> 配線は抜かない</div>
+              </div>
+            </article>
+            <article className="artifact">
+              <h3>Dashboard</h3>
+              <p>数字が主役で、異常だけ見えるか。</p>
+              <div className="mock-row"><span>未確認</span><strong>12</strong></div>
+              <div className="mock-row"><span>承認待ち</span><strong>4</strong></div>
+              <div className="mock-row"><span>要確認</span><strong style={{ color: "var(--warning)" }}>2</strong></div>
+            </article>
           </div>
         );
       }
 
-      function ComponentPreview() {
-        return (
-          <section className="section">
-            <div className="section-head">
-              <div>
-                <h2>Components</h2>
-                <p className="sub">Button / Card / Dialog / Mission / Approval / Notification / Input / Table / Widget</p>
-              </div>
-              <span className="pill">Decision Preview</span>
-            </div>
-            <div className="grid">
-              {[
-                ["●", "Button", "押した感覚、角丸、余白、影を確認する。"],
-                ["▣", "Card", "情報のまとまり、余白、主役情報の見え方を見る。"],
-                ["✓", "Approval", "承認、修正、保留、却下が迷わず押せるか見る。"],
-                ["!", "Notification", "重要な状態変化だけが自然に目に入るか見る。"],
-              ].map(([icon, title, body]) => (
-                <article className="card" key={title}>
-                  <div className="icon">{icon}</div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        );
-      }
-
-      function ArtifactPreview() {
-        return (
-          <section className="section">
-            <div className="section-head">
-              <div>
-                <h2>Artifact Preview</h2>
-                <p className="sub">同じTokenが成果物ごとにどう見えるか確認する。</p>
-              </div>
-            </div>
-            <div className="artifact-grid">
-              <article className="artifact">
-                <h3>LINE Mission</h3>
-                <p>短い文と余白で、Human Agentが止まらず動けるか。</p>
-                <div className="line-preview">
-                  <div className="bubble">AI Agentから調査依頼です。</div>
-                  <div className="bubble">今日お願いしたいのは、PCまわりの写真だけです。</div>
-                  <div className="bubble">分からなければ写真だけでOKです。</div>
-                </div>
-              </article>
-
-              <article className="artifact">
-                <h3>Human Agent Mission</h3>
-                <p>現場で迷わず進めるMission Sheet。</p>
-                <div className="mission-list">
-                  <div className="check"><span className="box">✓</span> PC裏全体を撮る</div>
-                  <div className="check"><span className="box">✓</span> キーボード全体を撮る</div>
-                  <div className="check"><span className="box"></span> 料金表を撮る</div>
-                  <div className="check"><span className="box"></span> 配線は抜かない</div>
-                </div>
-              </article>
-
-              <article className="artifact">
-                <h3>Dashboard</h3>
-                <p>数字が主役になるか。異常だけが自然に目に入るか。</p>
-                <table className="table">
-                  <tbody>
-                    <tr><td>未確認</td><td>12</td></tr>
-                    <tr><td>承認待ち</td><td>4</td></tr>
-                    <tr><td>要確認</td><td style={{ color: "var(--warning)" }}>2</td></tr>
-                    <tr><td>完了</td><td style={{ color: "var(--accent)" }}>18</td></tr>
-                  </tbody>
-                </table>
-              </article>
-            </div>
-          </section>
-        );
-      }
-
-      function CompareMode() {
-        const cards = [
-          ["A案", "Sharp", "radius 8 / compact / shadow none", "硬く速い。業務ツール寄り。"],
-          ["B案", "Balanced", "radius 12 / comfortable / soft", "現時点の本命。読みやすく迷いにくい。"],
-          ["C案", "Soft Glass", "radius 16 / relaxed / glass", "気持ちよいが、少し柔らかい可能性。"],
-        ];
-
-        return (
-          <section className="section">
-            <div className="section-head">
-              <div>
-                <h2>Compare Mode</h2>
-                <p className="sub">AIが案を出し、Humanは選ぶだけ。</p>
-              </div>
-              <span className="pill">A / B / C</span>
-            </div>
-            <div className="compare">
-              {cards.map(([label, title, spec, body]) => (
-                <article className="compare-card" key={label}>
-                  <div className="pill">{label}</div>
-                  <h3>{title}</h3>
-                  <p>{spec}</p>
-                  <p>{body}</p>
-                  <div className="approve-row">
-                    <button className="mini-button ok">承認</button>
-                    <button className="mini-button">修正</button>
-                    <button className="mini-button">保留</button>
-                    <button className="mini-button">却下</button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        );
-      }
-
       function App() {
-        const [tokens, setTokens] = useState(INITIAL);
+        const [step, setStep] = useState(0);
+        const [tokens, setTokens] = useState(DEFAULT_TOKENS);
+        const [decisions, setDecisions] = useState([]);
+        const current = QUESTIONS[step];
+        const selected = current.choices.find((choice) => tokens[current.token] === choice.value) || current.choices[0];
 
-        useEffect(() => {
-          applyTokens(tokens);
-        }, [tokens]);
+        const candidates = current.choices.map((choice) => ({
+          ...choice,
+          tokens: makeCandidate(tokens, current.token, choice.value),
+        }));
 
         const tokenJson = useMemo(() => JSON.stringify({
-          status: "candidate",
-          source: "Design Playground",
+          status: "temporary_design_token_candidate",
+          source: "Design Playground v2",
+          decisions,
           tokens,
-          note: "This is not canonical yet. Approve before promoting to Design System.",
-        }, null, 2), [tokens]);
+          note: "まだ正本ではありません。承認後にDesign Systemへ昇格します。",
+        }, null, 2), [tokens, decisions]);
 
-        const update = (key) => (value) => setTokens((current) => ({ ...current, [key]: value }));
+        function choose(choice) {
+          const nextTokens = makeCandidate(tokens, current.token, choice.value);
+          setTokens(nextTokens);
+          setDecisions((items) => {
+            const next = items.filter((item) => item.question !== current.id);
+            return [...next, {
+              question: current.id,
+              selected: choice.id,
+              label: choice.label,
+              token: current.token,
+              value: choice.value,
+            }];
+          });
+        }
+
+        function next() {
+          setStep((value) => Math.min(QUESTIONS.length - 1, value + 1));
+        }
+
+        function prev() {
+          setStep((value) => Math.max(0, value - 1));
+        }
 
         return (
-          <div className="app">
-            <aside className="sidebar">
+          <div className="shell">
+            <header className="topbar">
               <div className="brand">
                 <div className="logo">DP</div>
                 <div>
-                  <h1>Design Playground</h1>
-                  <p className="sub">Design Decision Platform</p>
+                  <h1>Design Playground v2</h1>
+                  <p className="sub">設定画面ではなく、Designを気持ちよく決める場所</p>
                 </div>
               </div>
-
-              <Control label="Theme" value={tokens.theme} values={OPTIONS.theme} onChange={update("theme")} wide />
-              <Control label="Spacing" value={tokens.spacing} values={OPTIONS.spacing} onChange={update("spacing")} />
-              <Control label="Corner Radius" value={tokens.radius} values={OPTIONS.radius} onChange={update("radius")} wide />
-              <Control label="Shadow" value={tokens.shadow} values={OPTIONS.shadow} onChange={update("shadow")} wide />
-              <Control label="Animation Speed" value={tokens.speed} values={OPTIONS.speed} onChange={update("speed")} />
-              <Control label="Animation Style" value={tokens.motion} values={OPTIONS.motion} onChange={update("motion")} />
-              <Control label="Glass Effect" value={tokens.glass} values={OPTIONS.glass} onChange={update("glass")} wide />
-              <Control label="Typography" value={tokens.typography} values={OPTIONS.typography} onChange={update("typography")} wide />
-            </aside>
+              <span className="badge">Design Decision Experience</span>
+            </header>
 
             <main className="main">
-              <section className="hero">
-                <div className="panel">
-                  <div className="eyebrow">Experience First</div>
-                  <h2 className="display">Designを決める場所。</h2>
-                  <p className="lead">
-                    このPlaygroundは、文章でDesignを読むためではなく、実物を見て、触って、承認するための場所です。
-                    承認されたTokenは、将来すべてのArtifactへ反映されます。
-                  </p>
-                  <div className="actions">
-                    <button className="primary">この方向を承認</button>
-                    <button className="secondary">A/B/Cを比較</button>
-                    <button className="secondary">Token候補を見る</button>
-                  </div>
+              <section className="panel question">
+                <div className="step">Question {step + 1} / {QUESTIONS.length}</div>
+                <h2>{current.title}</h2>
+                <p className="help">{current.help}</p>
+
+                <div className="choices">
+                  {current.choices.map((choice) => (
+                    <button
+                      className={`choice ${selected.id === choice.id ? "active" : ""}`}
+                      key={choice.id}
+                      onClick={() => choose(choice)}
+                    >
+                      <div className="choice-label">
+                        <span>{choice.label}</span>
+                        {selected.id === choice.id && <span>選択中</span>}
+                      </div>
+                      <p>{choice.note}</p>
+                    </button>
+                  ))}
+                  <button className="choice" onClick={() => choose({ id: "X", label: "どちらも違う", value: tokens[current.token], note: "AIに別案を出してほしい。" })}>
+                    <div className="choice-label">
+                      <span>どちらも違う</span>
+                      <span>再提案</span>
+                    </div>
+                    <p>この案ではしっくり来ない場合に選ぶ。将来はAIが別案を生成する。</p>
+                  </button>
                 </div>
 
-                <div className="panel decision">
-                  <div>
-                    <div className="eyebrow">Mobile Approval</div>
-                    <div className="big-number">4</div>
-                    <p className="sub">承認待ちの重要Action</p>
-                  </div>
-                  <div className="status-row">
-                    <span>Human Agent Mission</span>
-                    <span className="pill">Ready</span>
-                  </div>
-                  <div className="status-row">
-                    <span>料金表Evidence</span>
-                    <span style={{ color: "var(--warning)" }}>Need Review</span>
-                  </div>
-                  <div className="approve-row">
-                    <button className="mini-button ok">OK</button>
-                    <button className="mini-button">修正</button>
-                    <button className="mini-button">保留</button>
-                    <button className="mini-button">却下</button>
-                  </div>
+                <div className="nav">
+                  <button onClick={prev}>前へ</button>
+                  <button className="decision-button primary" onClick={next}>次の判断へ</button>
+                </div>
+
+                <div className="progress">
+                  {QUESTIONS.map((item, index) => (
+                    <span className={`dot ${index <= step ? "done" : ""}`} key={item.id}></span>
+                  ))}
                 </div>
               </section>
 
-              <ComponentPreview />
-              <ArtifactPreview />
-              <CompareMode />
-
-              <section className="section">
-                <div className="section-head">
+              <section className="preview">
+                <div className="preview-head">
                   <div>
-                    <h2>Token Candidate</h2>
-                    <p className="sub">これは正本ではなく、承認前の候補です。</p>
+                    <h2>変更前 / 変更後 Preview</h2>
+                    <p className="sub">専門用語ではなく、見た感覚で選ぶ。</p>
                   </div>
+                  <span className="badge">{selected.label}</span>
                 </div>
-                <pre className="token-output">{tokenJson}</pre>
+
+                <div className="compare-grid">
+                  {candidates.map((candidate) => (
+                    <PreviewCard
+                      key={candidate.id}
+                      label={candidate.label}
+                      tokens={candidate.tokens}
+                      selected={selected.id === candidate.id}
+                    />
+                  ))}
+                </div>
+
+                <div>
+                  <div className="preview-head">
+                    <div>
+                      <h2>Artifact Preview</h2>
+                      <p className="sub">選んだ方向がLINE / Mission / Dashboardでどう見えるか。</p>
+                    </div>
+                  </div>
+                  <ArtifactPreview tokens={tokens} />
+                </div>
+
+                <div className="token-panel">
+                  <h2>あなたの暫定Design Token</h2>
+                  <p>これはまだ正本ではありません。最後に承認したものだけDesign Systemへ戻します。</p>
+                  <pre>{tokenJson}</pre>
+                </div>
               </section>
             </main>
           </div>
