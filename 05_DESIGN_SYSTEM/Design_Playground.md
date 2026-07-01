@@ -451,3 +451,210 @@ Design Taste Testとの違い:
 
 Design Decision Platformとして自然か:
 v1より自然。Humanは設定値ではなく、体験としての好みを選ぶだけでよい。
+
+## v2.1: Design Token Versioning
+
+Design Playgroundでは、選んだTokenをすぐDesign System本体へ昇格しない。
+
+まず`Design Token Candidate`として保存し、比較、復元、改善できる状態にする。
+
+現在HTML内に表示している`temporary_design_token_candidate`は、次の扱いへ進化させる。
+
+```md
+temporary_design_token_candidate
+↓
+Design Token Candidate
+↓
+Design Token v0.1
+↓
+Design Token v0.2
+↓
+Approved Design Token
+↓
+Design System本体へ反映
+```
+
+### Version管理の目的
+
+Designを一度で確定しない。
+
+触りながら、比較しながら、戻れる状態で育てる。
+
+Version例:
+
+| Version | 状態 | 目的 |
+|---|---|---|
+| v0.1 | First Candidate | 最初に気持ちいいと感じた方向 |
+| v0.2 | Refined Candidate | v0.1の違和感を修正した方向 |
+| v0.3 | Artifact Tested | LINE / Mission / Dashboardで確認済み |
+| v1.0 | Approved | Design System本体へ反映候補 |
+
+### Candidateに保存するもの
+
+```json
+{
+  "version": "v0.1",
+  "status": "candidate",
+  "palette": "Midnight Glass",
+  "spacing": "relaxed",
+  "radius": 18,
+  "motionSpeed": "normal",
+  "glass": "medium",
+  "typography": "system",
+  "keptReason": "Mobile Approvalが一番気持ちよく見えたため",
+  "testedArtifacts": ["LINE", "Mission", "Dashboard", "Approval"],
+  "decision": "keep"
+}
+```
+
+### Keep / Discard / Compare
+
+Design Playgroundでは、各候補に対して次の判断を行う。
+
+| Action | 意味 |
+|---|---|
+| Keep | 気に入ったので候補として残す |
+| Discard | 違ったので候補から外す |
+| Compare Later | まだ判断しきれないので後で比較する |
+
+重要:
+KeepはDesign System本体への昇格ではない。
+あくまで候補保存である。
+
+## Color Palette Gallery
+
+Design Playgroundには、Color Palette Galleryを置く。
+
+目的:
+色を一つずつ選ぶのではなく、体験ごとのPalette候補を並べ、LINE / Mission / Dashboard / Approval Previewを一括で変化させる。
+
+候補:
+
+| Palette | 印象 | 用途仮説 |
+|---|---|---|
+| Midnight Glass | 黒、透明感、高級感、集中 | AI Workspace OS / Dashboard / Approval |
+| Navy Flow | 落ち着き、信頼、業務感 | 会社運営OS / 経理 / 管理画面 |
+| Emerald Signal | 状態変化、完了、前進 | Mission / Success / Signal系UI |
+| Warm Minimal | 温かい、やわらかい、疲れにくい | Human Agent Mission / LINE / A4 |
+| Hotel Dark | HOTEL JOYらしい夜感、落ち着き | Hotel OS / 予約 / 部屋状態 |
+
+### Palette反映の構想
+
+Paletteを選ぶと、次のPreviewが一括で変化する。
+
+```md
+Paletteを選ぶ
+↓
+LINE Preview
+Human Agent Mission Preview
+Dashboard Preview
+Approval Preview
+が同時に変わる
+```
+
+確認すること:
+
+- LINEで読みやすいか
+- MissionでHuman Agentが止まらないか
+- Dashboardで数字が主役になるか
+- Approvalで押すのが気持ちいいか
+- A4 / PDFへ展開した時に重すぎないか
+
+### Palette Decisionの聞き方
+
+専門用語ではなく、体験の言葉で聞く。
+
+```md
+どの空気感が一番しっくり来ますか？
+
+A: 静かで集中できる
+B: 信頼できて業務に強い
+C: 前へ進む感じがある
+D: 温かくて疲れない
+E: HOTEL JOYらしい夜の落ち着き
+```
+
+## Future Gallery
+
+Color Palette Galleryが有効なら、将来次へ拡張する。
+
+- Icon Style Gallery
+- Character Style Gallery
+- Illustration Style Gallery
+
+ただし、現時点では新しいDesign System本体へ昇格しない。
+
+まずはPlayground内の候補ギャラリーとして扱う。
+
+### Icon Style Gallery
+
+目的:
+lucide-reactを基本にしつつ、太さ、サイズ、余白、ラベルとの相性を比較する。
+
+例:
+- Thin
+- Regular
+- Bold-like
+- Filled風
+
+### Character Style Gallery
+
+目的:
+Human Agent向けMissionや説明で、キャラクター表現が必要か検証する。
+
+注意:
+現時点では保留。
+装飾が増えすぎる可能性がある。
+
+### Illustration Style Gallery
+
+目的:
+A4、Web、Missionで使う図解や説明イラストの方向性を比較する。
+
+注意:
+まずはIcon中心で十分か検証する。
+
+## 上流理論
+
+Design Playgroundの上流理論:
+
+```md
+Human Taste
+↓
+Design Decision Experience
+↓
+Token化
+↓
+Artifact反映
+↓
+Feedback
+↓
+Token改善
+```
+
+意味:
+- Human Tasteは、言語化される前の好み、違和感、心地よさ。
+- Design Decision Experienceは、それをA/B比較で選べる体験に変換する。
+- Token化は、選択を再利用可能なDesign Tokenへ変換する。
+- Artifact反映は、LINE / Mission / Dashboard / Approvalへ一括反映する。
+- Feedbackは、実際に見て、触って、違和感を集める。
+- Token改善は、v0.1からv0.2へ育てる。
+
+この流れにより、Designは一度で決めるものではなく、ExperienceのFeedbackで進化するものとして扱える。
+
+## v2.1自己レビュー
+
+Layer Leak:
+なし。Design Playground内の保存、比較、復元の構想であり、Design System本体へはまだ昇格しない。
+
+Design Systemとの責務:
+自然。Playgroundは候補を育てる場所。Design System本体は承認済みTokenの正本。
+
+Color Palette Galleryの責務:
+自然。色を個別指定ではなくExperience単位で比較するための候補ギャラリー。
+
+Versioningの責務:
+自然。Git commitとは別に、Design Candidateの意味ある変化を追跡する。
+
+将来拡張:
+Icon / Character / Illustrationはまだ保留。Color Palette Galleryで効果を確認してから広げる。
