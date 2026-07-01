@@ -359,6 +359,208 @@ LINE / Web / App / Dashboard / PDF / A4 / Mail / 通知
 - Presentation Layerは「どう届けるか」を決める
 - Design Systemは「どの世界観で見せるか」を決める
 
+## Discussion: Experienceの位置付け
+
+今回の気付き:
+
+Humanが本当に受け取っているのは、DesignそのものではなくExperienceである可能性がある。
+
+例えば次の感覚は、単なるDesign RuleではなくExperience Ruleとして扱った方が自然かもしれない。
+
+- 迷わない
+- 疲れない
+- 理解が速い
+- 承認が気持ちいい
+- 余白が呼吸になる
+- 数字が主役になる
+- 情報は必要な時だけ現れる
+- 動きは理解を助ける
+- 触ると安心する
+- Human Costを減らす
+- AIが裏側を担当する
+
+Experienceとは、見た目ではない。
+
+Humanが、
+
+- 理解し
+- 判断し
+- 行動し
+- 安心し
+- 心地よく感じる
+
+全体体験である。
+
+### 仮説
+
+Design Systemのさらに上流にExperienceを置くと、次の順番になる可能性がある。
+
+```md
+Experience
+↓
+Brand
+↓
+Design
+↓
+Motion
+↓
+Interaction
+↓
+Presentation
+↓
+Artifact
+```
+
+この構造では、Design、Motion、InteractionはExperienceを表現する手段になる。
+
+つまり、
+
+```md
+Experience:
+Humanにどんな状態を起こしたいか
+
+Brand:
+そのExperienceをどんな世界観で伝えるか
+
+Design:
+その世界観を視覚化する方法
+
+Motion:
+状態変化を体感させる方法
+
+Interaction:
+Humanが操作し、反応を受け取る方法
+
+Presentation:
+成果物として届ける形
+```
+
+### AI Workspace OSとの関係
+
+これまでの流れは次のように見ていた。
+
+```md
+Goal
+↓
+AI Workspace OS
+↓
+Artifact生成
+↓
+Presentation
+↓
+Design System
+↓
+Human
+```
+
+しかし、Experienceを上流に置く場合、最終的には次の見方が自然かもしれない。
+
+```md
+Human Experience
+↓
+Goal
+↓
+AI Workspace OS
+↓
+Artifact生成
+↓
+Presentation
+↓
+Design / Motion / Interaction
+↓
+Human
+```
+
+または、生成後の視点では次のように循環する。
+
+```md
+Goal
+↓
+AI Workspace OS
+↓
+Artifact
+↓
+Presentation
+↓
+Experience
+↓
+Human Action
+↓
+Learning
+```
+
+つまりExperienceは、Presentationの後に発生する結果でありながら、設計上はPresentationより上流に置くべき判断基準でもある。
+
+### Appleとの比較
+
+AppleはDesignが強いと言われることが多いが、実際の強さは見た目だけではなく、Humanが迷わず、気持ちよく、安心して使えるExperienceまで含めて設計している点にあるように見える。
+
+この見方はAI Workspace OSにも自然である。
+
+AI Workspace OSの目的は、AIツールを並べることではない。
+Humanが最高の体験で現実を変えられる状態を作ることである。
+
+AI、API、Browser Automation、Design、Motionは、そのExperienceを実現する部品である。
+
+### Experienceはどこに置くべきか
+
+現時点の判断:
+
+Experienceはまだ新しいLayerとして確定しない。
+
+理由:
+- ホテル、投資、経理、人体など複数分野で、Experienceが本当に最上流に来るか未検証
+- Brand Identityとの境界がまだ曖昧
+- Design Systemの最上位概念として扱える可能性もある
+- AI Workspace OS全体のArchitecture Ruleになる可能性もある
+
+ただし、Design SystemのDiscussionとしては保存する価値が高い。
+
+現時点では次のように扱う。
+
+```md
+Status:
+Architecture Discussion
+
+Placement:
+Design Systemより上流にある可能性のある概念
+
+Not yet:
+Principle
+Kernel
+Future Candidate
+独立Engine
+```
+
+### 暫定ルール
+
+Design / Motion / Interactionを決める前に、必要に応じて次を確認する。
+
+```md
+この成果物でHumanにどんなExperienceを起こしたいか。
+```
+
+例:
+
+```md
+Approval Inbox:
+迷わず承認できる
+押した瞬間に安心できる
+次に何が起きるか分かる
+
+Human Agent Mission:
+難しそうに見えない
+やることが1つに見える
+分からなくても止まらない
+
+Dashboard:
+数字が主役になる
+異常だけが自然に目に入る
+毎日見ても疲れない
+```
+
+この暫定ルールはDesignの品質を上げるためのDiscussionであり、まだCore Principleではない。
+
 ## Presentation Layerとして自然か
 
 自然。
@@ -429,6 +631,9 @@ Presentation Layerとして自然か:
 
 AI Workspace OSとの整合性:
 ある。AI Workspace OSがArtifactを決め、Presentation LayerがDesign Systemを参照して出力を整える。
+
+Experienceとの整合性:
+現時点ではDiscussionとして自然。Design / Motion / Interactionの上流判断として有効そうだが、複数分野で未検証のためLayerやPrincipleには昇格しない。
 
 将来的にDesign変更が1箇所で済む構造か:
 Tokenと00_Design_System.mdを正本にすれば可能。ただしTemplateへ直接スタイルを書きすぎると崩れる。
